@@ -1,0 +1,11 @@
+{
+  "name": "消安大屏显示",
+  "version": "1.0.0",
+  "description": "消安大屏显示",
+  "dependencies": {
+    "mat": "1.0.7",
+    "mat-proxy": "0.0.2",
+    "mat-less": "0.0.3",
+    "magix-combine": "3.2.2"
+  }
+}
