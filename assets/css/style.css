@@ -77,7 +77,7 @@ table tbody .center {
   background-color: #41AEF9;
 }
 
-.amap-icon img {
+.amap-icon img{
   width: 16px;
   height: 16px;
 }
@@ -90,8 +90,7 @@ table tbody .center {
   color: #7adeff;
   padding: 0 30px;
   position: relative;
-  /* background-image: -webkit-image-set(url(../img/logo_1x.png) 1x,url(../img/logo_2x.png) 2x); */
-  background-image: -webkit-image-set(url(../img/logo_hover_1x.png) 1x,url(../img/logo_hover_2x.png) 2x);
+  background-image: -webkit-image-set(url(../img/logo_1x.png) 1x,url(../img/logo_2x.png) 2x);
   background-repeat: no-repeat;
   background-position: 30px 20px;
 }
@@ -103,33 +102,40 @@ table tbody .center {
   padding: 0 30px;
   display: flex;
   flex-direction: column;
+  /*position: fixed;
+  top: 88px;
+  left: 0;
+  right: 0;
+  bottom: 0;*/
 }
+
 .map-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  /*z-index: -1;*/
 }
 
-.top-wrapper,
-.bottom-wrapper {
+.top-area,
+.bottom-area {
   display: flex;
   justify-content: space-between;
 }
-.top-wrapper {
+.top-area {
   flex-grow: 4;
-  position: relative;
 }
-.bottom-wrapper {
+.bottom-area {
   flex-grow: 1;
 }
 
 .grid {
+  border: 1px solid #69b2d5;
   padding: 5px 0px 0px;
   margin-bottom: 10px;
-  border: 1px solid #053f79;
-  background: rgba(0, 43, 96, 0.9);
+  box-shadow: 0px 0px 10px rgba(255,255,255,0.5) inset;
+  background: rgba(84,175,222,0.2);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -149,88 +155,74 @@ table tbody .center {
   align-items: center;
   flex-grow: 1;
 }
-.top-wrapper .top-left-wrapper,
-.top-wrapper .top-right-wrapper {
+
+.top-area .left-col,
+.top-area .right-col {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 280px;
+  /*flex-grow: 1;*/
 }
-.top-wrapper .top-middle-wrapper {
+.top-area .middle-col {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 4;
   margin: 0 10px;
 }
-.top-wrapper .weather,
-.top-wrapper .networking-total {
+.top-area .left-top,
+.top-area .left-bottom {
   flex-grow: 1;
   flex-basis: 0%;
 }
-.top-wrapper .misinformation-rate,
-.top-wrapper .failure-rate {
-  flex-grow: 1;
+.top-area .middle-top {
+  /*flex-grow: 1;*/
 }
-.bottom-wrapper .left {
+.top-area .middle-bottom {
+  flex-grow: 9;
+}
+.top-area .right-top,
+.top-area .right-middle {
+  flex-grow: 3;
+  /*flex-basis: 0%;*/
+}
+.top-area .right-bottom {
+  flex-grow: 2;
+}
+.bottom-area .left {
   flex-grow: 4;
   flex-basis: 0%;
 }
-.bottom-wrapper .middle,
-.bottom-wrapper .right {
+.bottom-area .middle,
+.bottom-area .right {
   flex-grow: 1;
 }
-.bottom-wrapper .middle {
+.bottom-area .middle {
   margin: 0 10px 10px;
 }
-.top-wrapper .weather .content {
-  padding: 10px;
-  flex-direction: column;
-  justify-content: center;
-  color: #fff;
-}
-.top-wrapper .weather .row {
-  display: flex;
-  align-items: center;
-}
-.top-wrapper .weather .tem {
-  font-size: 54px;
-  margin-right: 15px;
-}
-.top-wrapper .weather .tem .symbol {
-  font-size: 24px;
-  vertical-align: super;
-}
-.top-wrapper .weather .wea {
-  font-size: 16px;
-}
-.top-wrapper .weather .location {
-  margin-bottom: 15px;
-}
-.top-wrapper .weather .win {
-  margin-right: 15px;
-}
 
-.top-wrapper .networking-total .content {
+.top-area .left-top .content {
   justify-content: space-between;
 }
-.top-wrapper .networking-total .sum,
-.top-wrapper .networking-total .detail {
+.top-area .left-top .sum,
+.top-area .left-top .detail {
   flex-grow: 1;
 }
-.top-wrapper .networking-total .sum {
+.top-area .left-top .sum {
   margin-right: 10px;
 }
-.top-wrapper .networking-total .sum h4 {
+.top-area .left-top .sum h4 {
   color: #d7f9fd;
   font-size: 12px;
   text-align: center;
   margin-bottom: 25px;
 }
-.top-wrapper .networking-total .sum .number {
+.top-area .left-top .sum .number {
   color: #d7f9fd;
+  border: 1px solid #69b2d5;
   border-radius: 5px;
-  background: rgba(0, 34, 79, 0.8);
+  box-shadow: 0px 0px 10px rgba(255,255,255,0.5) inset;
+  background: rgba(84,175,222,0.1);
   width: 90px;
   height: 90px;
   margin: 0 auto;
@@ -239,113 +231,102 @@ table tbody .center {
   align-items: center;
   flex-direction: column;
 }
-.top-wrapper .networking-total .detail .group-field {
+.top-area .left-top .detail .group-field {
   text-align: center;
   color: #d7f9fd;
   font-size: 12px;
 }
-.top-wrapper .networking-total .detail .chart-container {
+.top-area .left-top .detail .chart-container {
   margin: 0 auto;
 }
-.top-wrapper .detection-total {
+
+
+.top-area .left-bottom .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-area .left-bottom .sum,
+.top-area .left-bottom .detail {
+  flex-grow: 1;
+}
+.top-area .left-bottom .sum {
+  margin-right: 10px;
+}
+.top-area .left-bottom .sum h4 {
+  color: #d7f9fd;
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+.top-area .left-bottom .sum .number {
+  color: #d7f9fd;
+  border: 1px solid #69b2d5;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(255,255,255,0.5) inset;
+  background: rgba(84,175,222,0.1);
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.top-area .middle-top {
+  display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
 }
-.top-wrapper .detection-total .count {
+.top-area .middle-top .count {
   color: #c6f1ff;
   font-size: 18px;
 }
+.top-area .middle-bottom {
+  /*background-image: url(../img/hzmap.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;*/
+  position: relative;
+}
+.top-area .middle-bottom .logo {
+  width: 100px;
+  height: 100px;
+  background-image: -webkit-image-set(url(../img/logo_1x.png) 1x,url(../img/logo_2x.png) 2x);
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.top-area .middle-bottom .mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(84,175,222,0.3);
+}
+
+.top-area .right-bottom .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.top-area .right-bottom .content .group-item {
+  color: #d7f9fd;
+  font-size: 12px;
+}
+.top-area .right-bottom .content .sum {
+  margin-left: 30px;
+}
 
 
-.bottom-wrapper .middle .name,
-.bottom-wrapper .right .name {
+.bottom-area .middle .name,
+.bottom-area .right .name {
   max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   margin: 0 auto;
-}
-
-
-.map-info-layer {
-  display: none;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 900px;
-  height: 500px;
-  margin-left: -450px;
-  margin-top: -200px;
-}
-.map-info-layer .info-item {
-  position: absolute;
-  border: 3px solid #69b2d5;
-  box-shadow: 0px 0px 10px rgba(255,255,255,0.5) inset;
-  background-color: rgba(7, 46, 105, 0.8);
-  width: 250px;
-  height: 200px;
-}
-.map-info-layer .info-item .content {
-  padding: 10px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 180px;
-}
-.map-info-layer .info-item .line {
-  position: absolute;
-  width: 200px;
-  height: 2px;
-  border-radius: 2px;
-  background-color: #69b2d5;
-}
-.map-info-layer .building-info {
-  left: 0;
-  top: 0;
-}
-.map-info-layer .building-info .line {
-  left: 253px;
-  top: 100px;
-  transform: rotate(20deg);
-  transform-origin: left top;
-}
-.map-info-layer .alarm-info {
-  right: 0;
-  top: 0;
-}
-.map-info-layer .alarm-info .line {
-  right: 253px;
-  top: 100px;
-  transform: rotate(-20deg);
-  transform-origin: right top;
-}
-.map-info-layer .device-info {
-  left: 50%;
-  margin-left: -125px;
-  bottom: 0;
-}
-.map-info-layer .device-info .line {
-  width: 120px;
-  left: 50%;
-  top: -3px;
-  transform: rotate(-90deg);
-  transform-origin: left bottom;
-}
-.map-info-layer .content {
-  color: #fff;
-}
-.map-info-layer .content dt {
-  font-size: 16px;
-  color: #aaa;
-}
-.map-info-layer .content dd {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #7adeff;
-}
-.map-info-layer .close {
-  position: absolute;
-  top: -20px;
-  right: -20px;
 }

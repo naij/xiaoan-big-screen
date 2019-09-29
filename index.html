@@ -4,40 +4,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>智慧消防</title>
-    <link rel="stylesheet" href="/assets/css/cube-min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1440818_sugblnyf1uo.css">
-    <script src="/assets/script/jquery.js"></script>
-    <script src="/assets/script/chartx.js"></script>
-    <script src="/assets/script/gismap.js"></script>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g2/3.4.10/dist/g2.min.js"></script>
-    <script src="https://webapi.amap.com/maps?v=1.4.15&key=1135db0c7118a114734eb2612208083c"></script>
-    <script src="/assets/script/index.js"></script>
+    <link rel="stylesheet" href="./assets/css/cube-min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="./assets/script/jquery.js"></script>
+    <script src="./assets/script/chartx.js"></script>
+    <script src="./assets/script/gismap.js"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.10&key=1135db0c7118a114734eb2612208083c"></script>
   </head>
   <body>
     <div class="map-container" id="mapContainer"></div>
     
     <div class="header">
-      <div class="title">智慧消防——消防物联网远程监测平台</div>
+      <div class="logo">智慧消防——消防物联网远程监测平台</div>
     </div>
     
     <div class="main" id="main">
-      <div class="top-wrapper">
-        <div class="top-left-wrapper">
-          <div class="grid weather">
-            <div class="content">
-              <div class="row">
-                <div class="tem" id="J_tem"></div>
-                <div class="wea" id="J_wea"></div>
-              </div>
-              <div class="row location">浙江 杭州</div>
-              <div class="row">
-                <div class="win" id="J_win"></div>
-                <div class="humidity" id="J_humidity"></div>
-              </div>
-            </div>
-          </div>
-          <div class="grid networking-total">
+      <div class="top-area">
+        <div class="left-col">
+          <div class="grid left-top">
             <h3 class="headline">联网情况</h3>
             <div class="content">
               <div class="sum">
@@ -66,83 +50,69 @@
                     <span class="color-41AEF9">在线 1614</span>
                   </span>
                 </div>
-                <div class="chart-container" id='networkingTotalChart' style='width:120px;height:120px;'></div>
+                <div class="chart-container" id='detailChart' style='width:120px;height:120px;'></div>
               </div>
             </div>
           </div>
+          <div class="grid left-bottom">
+            <h3 class="headline">真实火警数</h3>
+            <div class="content">
+              <div id="realFireAlarmChart" style='width:280px;height:180px;'></div>
+            </div>
+          </div>
         </div>
-        <div class="top-middle-wrapper">
-          <div class="grid detection-total">
+        <div class="middle-col">
+          <div class="grid middle-top">
             <div class="count">
               各地区总检测点数：7326878个
             </div>
           </div>
+          <!-- <div class=" middle-bottom">
+            <div class="logo"></div>
+          </div> -->
         </div>
-        <div class="top-right-wrapper">
-          <div class="grid misinformation-rate">
+        <div class="right-col">
+          <div class="grid right-top">
             <h3 class="headline">误报率</h3>
             <div class="content">
-              <div id="falseAlarmChart" style='width:280px;height:200px;'></div>
+              <div id="falseAlarmChart" style='width:280px;height:130px;'></div>
             </div>
           </div>
-          <div class="grid failure-rate">
+          <div class="grid right-middle">
             <h3 class="headline">故障率</h3>
             <div class="content">
-              <div id="breakdownChart" style='width:280px;height:200px;'></div>
+              <div id="breakdownChart" style='width:280px;height:130px;'></div>
             </div>
           </div>
-        </div>
-
-        <div class="map-info-layer">
-          <div class="info-item building-info">
+          <div class="grid right-bottom">
+            <h3 class="headline">关机情况</h3>
             <div class="content">
-              <dl>
-                <dt>建筑名称：</dt>
-                <dd>森禾商务广场</dd>
-                <dt>建筑地址：</dt>
-                <dd>浙江省杭州市江干区杭海路238号</dd>
-                <dt>建筑类别：</dt>
-                <dd>写字楼</dd>
-              </dl>
+              <div class="group-field">
+                <div class="group-item">
+                  <span class="color-block color-block-91f7ec"></span>
+                  <span>关机</span>
+                  <span class="sum color-91f7ec">42</span>
+                </div>
+                <div class="group-item">
+                  <span class="color-block color-block-41AEF9"></span>
+                  <span>开机</span>
+                  <span class="sum color-41AEF9">1656</span>
+                </div>
+              </div>
+              <div id="shutdownChart" style='width:90px;height:90px;'></div>
             </div>
-            <div class="line"></div>
-          </div>
-          <div class="info-item alarm-info">
-            <div class="content">
-              <dl>
-                <dt>报警点位：</dt>
-                <dd>森禾商务广场</dd>
-                <dt>报警类别：</dt>
-                <dd>烟感</dd>
-              </dl>
-            </div>
-            <div class="line"></div>
-          </div>
-          <div class="info-item device-info">
-            <div class="content">
-              <dl>
-                <dt>建筑消防用水：</dt>
-                <dd>水量：水压：</dd>
-                <dt>AIoT评级：</dt>
-                <dd>一级</dd>
-              </dl>
-            </div>
-            <div class="line"></div>
-          </div>
-          <div class="close">
-            <span class="iconfont iconguanbi"></span>
           </div>
         </div>
       </div>
-      <div class="bottom-wrapper">
+      <div class="bottom-area">
         <div class="grid left">
-          <h3 class="headline">真实火警数</h3>
+          <h3 class="headline">各区域联网情况</h3>
           <div class="content">
-            <div id="realFireAlarmChart"></div>
+            <div id="networkingChart" style='width:600px;height:180px;'></div>
           </div>
         </div>
         <div class="grid middle">
-          <h3 class="headline">消防用水监测</h3>
+          <h3 class="headline">报警次数</h3>
           <div class="content">
             <table>
               <thead>
@@ -183,7 +153,7 @@
           </div>
         </div>
         <div class="grid right">
-          <h3 class="headline">用电安全监测</h3>
+          <h3 class="headline">故障次数</h3>
           <div class="content">
             <table>
               <thead>
@@ -225,5 +195,374 @@
         </div>
       </div>
     </div>
+
+    
+    <script>
+      Chartx.setGlobalTheme(['#91f7ec', '#41AEF9'])
+
+      $(function() {
+
+        var BdmapEncryptToMapabc = (bd_lat, bd_lon) => {
+          var point = new Object()
+          var x_pi = 3.14159265358979324 * 3000.0 / 180.0
+          var x = new Number(bd_lon - 0.0065)
+          var y = new Number(bd_lat - 0.006)
+          var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi)
+          var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi)
+          var Mars_lon = z * Math.cos(theta)
+          var Mars_lat = z * Math.sin(theta)
+          point.lng = Mars_lon
+          point.lat = Mars_lat
+          return point
+        }
+
+        // 设置main容器的高度，保证在一屏中显示完整的页面
+        $('#main').height($(window).height() - $('.header').height())
+
+        // 显示高德地图
+        var map = new AMap.Map('mapContainer', {
+          resizeEnable: true, //是否监控地图容器尺寸变化
+          zoom: 11, //初始化地图层级
+          center: [120.214001, 30.247132], //初始化地图中心点
+          features: ['bg', 'road']
+        })
+        map.setMapStyle('amap://styles/blue')
+
+        var poinerIcon = 'https://img.alicdn.com/imgextra/i1/3883067843/O1CN0147qDXG27o8tBXO548_!!3883067843.png'
+        var markerArr = []
+        var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)})
+        function markerClick(e) {
+          infoWindow.setContent(e.target.content)
+          infoWindow.open(map, e.target.getPosition())
+        }
+        var pointerArr = []
+        localGISMap.forEach(function(item, index) {
+          // AMap.convertFrom([item[1], item[2]], 'baidu', function (status, result) {
+          //   if (result.info === 'ok') {
+          //     var resLnglat = result.locations[0]
+          //     pointerArr.push([item[0], resLnglat.lng, resLnglat.lat])
+          //   }
+          // })
+          var gis = BdmapEncryptToMapabc(item[1], item[2])
+
+          var marker = new AMap.Marker({
+            position: new AMap.LngLat(gis.lat, gis.lng),
+            icon: poinerIcon
+          })
+          marker.content = item[0]
+          marker.on('click', markerClick)
+          marker.emit('click', {target: marker})
+          markerArr.push(marker)
+        })
+
+        // setTimeout(function() {
+        //   console.log(JSON.stringify(pointerArr))
+        // }, 20000)
+        map.add(markerArr)
+
+
+        // 联网情况图表数据
+        var detailData= [
+          ["name", "value"],
+          ["离线", 84 ],
+          ["在线", 1614]
+        ]
+
+        var detailOptions = {
+          coord : {
+            type : "polar"
+          },
+          graphs: {
+            type: "pie",
+            field: "value",
+            groupField: "name",
+            startAngle: -180,
+            node: {
+              radius: 10
+            }
+          },
+          tips: {
+            content: function(info){
+              var node = info.nodes[0]
+              return node.label + "：" + node.value
+            }
+          }
+        }
+
+        Chartx.create( "detailChart" , detailData, detailOptions)
+
+        // 真实火警数图表数据
+        var realFireAlarmData = [
+          ["xfield" , "真实火警数"],
+          [ "1月" , 8],
+          [ "2月" , 6],
+          [ "3月" , 8],
+          [ "4月" , 10],
+          [ "5月" , 12],
+          [ "6月" , 2],
+          [ "7月" , 10],
+          [ "8月" , 10]
+        ]
+
+        var realFireAlarmOptions = {
+          coord: {
+            type: "rect",
+            xAxis: {
+              field: "xfield",
+              label: {
+                fontSize: 9
+              }
+            },
+            yAxis: {
+              align: "left",
+              label: {
+                fontSize: 9
+              }
+            },
+            grid: {
+              enabled: false
+            }
+          },
+          graphs: [
+            {
+              type: "line",
+              field: ["真实火警数"],
+              line: {
+                strokeStyle: [
+                  "#41AEF9"
+                ],
+                lineWidth: 1
+              },
+              icon: {
+                fillStyle: '#cee5ff',
+                lineWidth: 1,
+                strokeStyle: '#cee5ff'
+              },
+              area: {
+                alpha: 0.5
+              }
+            }
+          ],
+          tips: {
+            pointer: "line",
+            content: function(info){
+              var node = info.nodes[0]
+              return node.value
+            }
+          }
+        }
+        Chartx.create("realFireAlarmChart" , realFireAlarmData , realFireAlarmOptions)
+
+        // 误报率图表数据
+        var falseAlarmData = [
+          ["xfield" , "误报率"],
+          [ "1月" , 4.04],
+          [ "2月" , 4.88],
+          [ "3月" , 5.32],
+          [ "4月" , 5.38],
+          [ "5月" , 6.14],
+          [ "6月" , 5.10],
+          [ "7月" , 4.89],
+          [ "8月" , 4.04]
+        ]
+
+        var falseAlarmOptions = {
+          coord: {
+            type: "rect",
+            xAxis: {
+              field: "xfield",
+              label: {
+                fontSize: 9
+              }
+            },
+            yAxis: {
+              align: "left",
+              label: {
+                fontSize: 9
+              }
+            },
+            grid: {
+              enabled: false
+            }
+          },
+          graphs: [
+            {
+              type: "line",
+              field: ["误报率"],
+              line: {
+                strokeStyle: [
+                  "#41AEF9"
+                ],
+                lineWidth: 1
+              },
+              icon: {
+                fillStyle: '#cee5ff',
+                lineWidth: 1,
+                strokeStyle: '#cee5ff'
+              },
+              area: {
+                alpha: 0.5
+              }
+            }
+          ],
+          tips: {
+            pointer: "line",
+            content: function(info){
+              var node = info.nodes[0]
+              return node.value + '%'
+            }
+          }
+        }
+        Chartx.create("falseAlarmChart" , falseAlarmData , falseAlarmOptions)
+
+        // 故障率图表数据
+        var breakdownData = [
+          ["xfield" , "故障率"],
+          [ "1月" , 3.46],
+          [ "2月" , 3.05],
+          [ "3月" , 4.80],
+          [ "4月" , 5.00],
+          [ "5月" , 4.64],
+          [ "6月" , 4.90],
+          [ "7月" , 5.04],
+          [ "8月" , 4.54]
+        ]
+
+        var breakdownOptions = {
+          coord: {
+            type: "rect",
+            xAxis: {
+              field: "xfield",
+              label: {
+                fontSize: 9
+              }
+            },
+            yAxis: {
+              align: "left",
+              label: {
+                fontSize: 9
+              }
+            },
+            grid: {
+              enabled: false
+            }
+          },
+          graphs: [
+            {
+              type: "line",
+              field: ["故障率"],
+              line: {
+                strokeStyle: [
+                  "#41AEF9"
+                ],
+                lineWidth: 1
+              },
+              icon: {
+                fillStyle: '#cee5ff',
+                lineWidth: 1,
+                strokeStyle: '#cee5ff'
+              },
+              area: {
+                alpha: 0.5
+              }
+            }
+          ],
+          tips: {
+            pointer: "line",
+            content: function(info){
+              var node = info.nodes[0]
+              return node.value + '%'
+            }
+          }
+        }
+        Chartx.create("breakdownChart" , breakdownData , breakdownOptions)
+
+        // 关机情况图表数据
+        var shutdownData= [
+          ["name", "value"],
+          ["关机", 42 ],
+          ["开机", 1656]
+        ]
+
+        var shutdownOptions = {
+          coord : {
+            type : "polar"
+          },
+          graphs: {
+            type: "pie",
+            field: "value",
+            groupField: "name",
+            startAngle: -180,
+            node: {
+              radius: 10
+            }
+          },
+          tips: {
+            content: function(info){
+              var node = info.nodes[0]
+              console.log(node)
+              return node.label + "：" + node.value
+            }
+          }
+        }
+
+        Chartx.create( "shutdownChart" , shutdownData, shutdownOptions)
+
+        // 各区域联网情况图表数据
+        var networkingData = [
+          ["xfield" , "总数"],
+          [ "大江东" , 2],
+          [ "滨江" , 140],
+          [ "之江" , 0],
+          [ "临安" , 9],
+          [ "江干" , 195],
+          [ "上城" , 97],
+          [ "建德" , 5],
+          [ "萧山" , 90],
+          [ "拱墅" , 257],
+          [ "桐庐" , 4],
+          [ "支队" , 20],
+          [ "西湖" , 275],
+          [ "景区" , 31],
+          [ "富阳" , 58],
+          [ "余杭" , 70],
+          [ "下城" , 178],
+          [ "淳安" , 30]
+        ]
+
+        var networkingOptions = {
+          coord: {
+            type: "rect",
+            xAxis: {
+              field: "xfield",
+              label: {
+                fontSize: 9
+              }
+            },
+            yAxis: {
+              align: "left",
+              label: {
+                fontSize: 9
+              }
+            },
+            grid: {
+              enabled: false
+            }
+          },
+          graphs: [
+            {
+              type: "bar",
+              field: [ 
+                ["总数"] 
+              ]
+            }
+          ],
+          tips: {
+            pointer: "region"
+          }
+        }
+        Chartx.create("networkingChart" , networkingData , networkingOptions)
+      })
+    </script>
   </body>
 </html>
