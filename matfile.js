@@ -16,8 +16,8 @@ mat.task('less', function () {
 })
 
 mat.task('default', function () {
-  mat.url([/\.json/])
+  mat.url([/\/tp\//])
     .use(proxy({
-      proxyPass: '127.0.0.1:7002'
+      proxyPass: '183.129.224.22:7777'
     }))
 })

@@ -6,7 +6,7 @@
     <title>智慧消防</title>
     <link rel="stylesheet" href="/assets/css/cube-min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1440818_sugblnyf1uo.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1440818_cqo5adxlteh.css">
     <script src="/assets/script/jquery.js"></script>
     <script src="/assets/script/chartx.js"></script>
     <script src="/assets/script/gismap.js"></script>
@@ -18,6 +18,7 @@
     <div class="map-container" id="mapContainer"></div>
     
     <div class="header">
+      <div class="header-bg"></div>
       <div class="title">智慧消防——消防物联网远程监测平台</div>
     </div>
     
@@ -26,6 +27,7 @@
         <div class="top-left-wrapper">
           <div class="grid weather">
             <div class="content">
+              <div class="wea-img" id="J_wea_img"></div>
               <div class="row">
                 <div class="tem" id="J_tem"></div>
                 <div class="wea" id="J_wea"></div>
@@ -72,10 +74,91 @@
           </div>
         </div>
         <div class="top-middle-wrapper">
-          <div class="grid detection-total">
-            <div class="count">
-              各地区总检测点数：7326878个
+          <div class="total-count">
+            <div class="label">各地区总检测点数：</div>
+            <div class="value">
+              <span class="number">7</span>
+              <span class="number">3</span>
+              <span class="number">2</span>
+              <span class="number">6</span>
+              <span class="number">8</span>
+              <span class="number">7</span>
+              <span class="number">8</span>
             </div>
+          </div>
+          <div class="time-range">
+            <div class="button selected">今日</div>
+            <div class="button">一周</div>
+            <div class="button">一月</div>
+          </div>
+
+          <div class="map-info-layer" id="J_info_layer">
+            <div class="info-item building-info">
+              <div class="content">
+                <div class="row">
+                  <div class="item">
+                    <div class="label">建筑名称：</div>
+                    <div class="value">森禾商务广场</div>
+                  </div>
+                  <div class="item">
+                    <div class="label">建筑类别：</div>
+                    <div class="value">写字楼</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="item">
+                    <div class="label">建筑地址：</div>
+                    <div class="value">浙江省杭州市江干区杭海路238号</div>
+                  </div>
+                </div>
+              </div>
+              <div class="line-group">
+                <div class="line line1"></div>
+                <div class="line line2"></div>
+                <div class="line line3"><div class="circle"></div></div>
+              </div>
+            </div>
+            <div class="info-item alarm-info">
+              <div class="content">
+                <div class="row">
+                  <div class="item">
+                    <div class="label">报警点位：</div>
+                    <div class="value">森禾商务广场</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="item">
+                    <div class="label">报警类别：</div>
+                    <div class="value">烟感</div>
+                  </div>
+                </div>
+              </div>
+              <div class="line-group">
+                <div class="line line1"></div>
+                <div class="line line2"></div>
+                <div class="line line3"><div class="circle"></div></div>
+              </div>
+            </div>
+            <div class="info-item device-info">
+              <div class="content">
+                <div class="row">
+                  <div class="item">
+                    <div class="label">建筑消防用水：</div>
+                    <div class="value">水压：0.35MPa</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="item">
+                    <div class="label">AIoT评级：</div>
+                    <div class="value">一级</div>
+                  </div>
+                </div>
+              </div>
+              <div class="line-group">
+                <div class="line line1"><div class="circle"></div></div>
+              </div>
+            </div>
+            <div class="close"></div>
           </div>
         </div>
         <div class="top-right-wrapper">
@@ -92,135 +175,49 @@
             </div>
           </div>
         </div>
-
-        <div class="map-info-layer">
-          <div class="info-item building-info">
-            <div class="content">
-              <dl>
-                <dt>建筑名称：</dt>
-                <dd>森禾商务广场</dd>
-                <dt>建筑地址：</dt>
-                <dd>浙江省杭州市江干区杭海路238号</dd>
-                <dt>建筑类别：</dt>
-                <dd>写字楼</dd>
-              </dl>
-            </div>
-            <div class="line"></div>
-          </div>
-          <div class="info-item alarm-info">
-            <div class="content">
-              <dl>
-                <dt>报警点位：</dt>
-                <dd>森禾商务广场</dd>
-                <dt>报警类别：</dt>
-                <dd>烟感</dd>
-              </dl>
-            </div>
-            <div class="line"></div>
-          </div>
-          <div class="info-item device-info">
-            <div class="content">
-              <dl>
-                <dt>建筑消防用水：</dt>
-                <dd>水量：水压：</dd>
-                <dt>AIoT评级：</dt>
-                <dd>一级</dd>
-              </dl>
-            </div>
-            <div class="line"></div>
-          </div>
-          <div class="close">
-            <span class="iconfont iconguanbi"></span>
-          </div>
-        </div>
       </div>
       <div class="bottom-wrapper">
         <div class="grid left">
           <h3 class="headline">真实火警数</h3>
           <div class="content">
-            <div id="realFireAlarmChart"></div>
+            <div id="realFireAlarmChart" class="overflow-hidden"></div>
           </div>
         </div>
         <div class="grid middle">
           <h3 class="headline">消防用水监测</h3>
           <div class="content">
-            <table>
-              <thead>
-                <tr>
-                  <th class="center">排名</th>
-                  <th class="center">单位名称</th>
-                  <th class="center">报警次数</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="center">1</td>
-                  <td class="center"><div class="name">国风美域</div></td>
-                  <td class="center"><span class="color-red">157</span></td>
-                </tr>
-                <tr class="even">
-                  <td class="center">2</td>
-                  <td class="center"><div class="name">杭州西溪悦榕酒店</td>
-                  <td class="center"><span class="color-red">135</span></td>
-                </tr>
-                <tr>
-                  <td class="center">3</td>
-                  <td class="center"><div class="name">西子国际</div></td>
-                  <td class="center"><span class="color-red">98</span></td>
-                </tr>
-                <tr class="even">
-                  <td class="center">4</td>
-                  <td class="center"><div class="name">青田滨江国际</div></td>
-                  <td class="center"><span class="color-red">98</span></td>
-                </tr>
-                <tr>
-                  <td class="center">5</td>
-                  <td class="center"><div class="name">绿城未来park</div></td>
-                  <td class="center"><span class="color-red">87</span></td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="item-wrapper">
+              <div class="hd">
+                <div class="icon icon-water-level"></div>
+                <div>水位总检测点数</div>
+              </div>
+              <div class="bd">
+                <span class="value">56487398</span>
+              </div>
+            </div>
+            <div class="item-wrapper">
+              <div class="hd">
+                <div class="icon icon-pressure"></div>
+                <div>水压总检测点数</div>
+              </div>
+              <div class="bd">
+                <span class="value">56487398</span>
+              </div>
+            </div>
           </div>
         </div>
         <div class="grid right">
           <h3 class="headline">用电安全监测</h3>
           <div class="content">
-            <table>
-              <thead>
-                <tr>
-                  <th class="center">排名</th>
-                  <th class="center">单位名称</th>
-                  <th class="center">故障次数</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="center">1</td>
-                  <td class="center"><div class="name">青田秀水名都</div></td>
-                  <td class="center"><span class="color-red">4380</span></td>
-                </tr>
-                <tr class="even">
-                  <td class="center">2</td>
-                  <td class="center"><div class="name">浙江省广播电视集团</div></td>
-                  <td class="center"><span class="color-red">2152</span></td>
-                </tr>
-                <tr>
-                  <td class="center">3</td>
-                  <td class="center"><div class="name">浙江金都宾馆有限公司</div></td>
-                  <td class="center"><span class="color-red">1733</span></td>
-                </tr>
-                <tr class="even">
-                  <td class="center">4</td>
-                  <td class="center"><div class="name">利二花苑物业服务中心</div></td>
-                  <td class="center"><span class="color-red">1072</span></td>
-                </tr>
-                <tr>
-                  <td class="center">5</td>
-                  <td class="center"><div class="name">杭州西湖区蒋村互联网创新创业园</div></td>
-                  <td class="center"><span class="color-red">1071</span></td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="item-wrapper">
+              <div class="hd">
+                <div class="icon icon-electricity"></div>
+                <div>用电总检测点数</div>
+              </div>
+              <div class="bd">
+                <span class="value">2354464</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

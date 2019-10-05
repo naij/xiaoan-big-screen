@@ -6,21 +6,38 @@ $(function() {
   $('#realFireAlarmChart').height($('#realFireAlarmChart').parent().height())
 
   // 天气预报
-  $.ajax({
-    url: "https://www.tianqiapi.com/api/?version=v6&cityid=101210101&appid=13915239&appsecret=Ky5jEpcK",
-    dataType: 'jsonp'
-  }).done(function(res) {
-    var tem = res.tem + '<span class="symbol">℃</span>'
-    var wea = res.wea
-    var win = res.win
-    var winSpeed = res.win_speed
-    var humidity = '空气湿度 ' + res.humidity
+  function weather() {
+    var weaImgMap = {
+      xue: 'iconzhongxue',
+      lei: 'iconleidian',
+      shachen: 'iconmai',
+      wu: 'iconwu',
+      bingbao: 'iconbingbao',
+      yun: 'iconduoyun',
+      yu: 'iconxiaoyu',
+      yin: 'iconyin',
+      qing: 'iconqing'
+    }
 
-    $('#J_tem').html(tem)
-    $('#J_wea').html(wea)
-    $('#J_win').html(win + ' ' + winSpeed)
-    $('#J_humidity').html(humidity)
-  })
+    $.ajax({
+      url: "https://www.tianqiapi.com/api/?version=v6&cityid=101210101&appid=13915239&appsecret=Ky5jEpcK",
+      dataType: 'jsonp'
+    }).done(function(res) {
+      var tem = res.tem + '<span class="symbol">℃</span>'
+      var wea = res.wea
+      var weaImg = '<span class="iconfont ' + weaImgMap[res.wea_img] + '"></span>'
+      var win = res.win
+      var winSpeed = res.win_speed
+      var humidity = '空气湿度 ' + res.humidity
+
+      $('#J_tem').html(tem)
+      $('#J_wea').html(wea)
+      $('#J_wea_img').html(weaImg)
+      $('#J_win').html(win + ' ' + winSpeed)
+      $('#J_humidity').html(humidity)
+    })
+  }
+  weather()
 
   // 显示高德地图
   function renderMap() {
@@ -54,21 +71,36 @@ $(function() {
       infoWindow.setContent(e.target.content)
       infoWindow.open(map, e.target.getPosition())
     }
-    localGISMap.forEach(function(item, index) {
-      var gis = BdmapEncryptToMapabc(item[1], item[2])
+    // localGISMap.forEach(function(item, index) {
+    //   var gis = BdmapEncryptToMapabc(item[1], item[2])
 
-      var marker = new AMap.Marker({
-        position: new AMap.LngLat(gis.lat, gis.lng),
-        icon: poinerIcon
-      })
-      marker.content = item[0]
-      marker.on('click', markerClick)
-      marker.emit('click', {target: marker})
-      markerArr.push(marker)
-    })
+    //   var marker = new AMap.Marker({
+    //     position: new AMap.LngLat(gis.lat, gis.lng),
+    //     icon: poinerIcon
+    //   })
+    //   marker.content = item[0]
+    //   marker.on('click', markerClick)
+    //   marker.emit('click', {target: marker})
+    //   markerArr.push(marker)
+    // })
     // map.add(markerArr)
   }
   renderMap()
+
+  // 信息浮层
+  function layer() {
+    var $infoLayer = $('#J_info_layer')
+    var $close = $infoLayer.find('.close')
+    var $parent = $infoLayer.parent()
+    $parent.addClass('relative')
+    $infoLayer.fadeIn()
+    $close.click(function(e) {
+      $infoLayer.fadeOut(200, function() {
+        $parent.removeClass('relative')
+      })
+    })
+  }
+  layer()
 
   // 联网情况图表数据
   function networkingTotalChart() {
