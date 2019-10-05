@@ -1,9 +1,6 @@
 $(function() {
   // 设置main容器的高度，保证在一屏中显示完整的页面
   $('#main').height($(window).height() - $('.header').height())
-  // 设置真实火警图表显示宽高
-  $('#realFireAlarmChart').width($('#realFireAlarmChart').parent().width())
-  $('#realFireAlarmChart').height($('#realFireAlarmChart').parent().height())
 
   // 天气预报
   function weather() {
@@ -62,6 +59,7 @@ $(function() {
       center: [120.214001, 30.247132], //初始化地图中心点
       features: ['bg', 'road', 'building'],
       mapStyle: 'amap://styles/3b563d6db6bd30bc836a6d7c849d9b1f'
+      // mapStyle: 'amap://styles/dark'
     })
 
     var poinerIcon = 'https://img.alicdn.com/imgextra/i1/3883067843/O1CN0147qDXG27o8tBXO548_!!3883067843.png'
@@ -125,7 +123,6 @@ $(function() {
     chart.intervalStack().position('count').color('item')
     chart.render()
   }
-  networkingTotalChart()
 
   // 真实火警数图表数据
   function realFireAlarmChart() {
@@ -144,7 +141,7 @@ $(function() {
       forceFit: true,
       height: $('#realFireAlarmChart').parent().height(),
       data: data,
-      padding: [20, 10, 80, 40]
+      padding: [10, 10, 60, 40]
     })
     chart.axis('month', {
       label: {
@@ -179,7 +176,6 @@ $(function() {
     chart.interval().position('month*value')
     chart.render()
   }
-  realFireAlarmChart()
 
   // 误报率图表数据
   function falseAlarmChart() {
@@ -198,7 +194,7 @@ $(function() {
       forceFit: true,
       height: $('#falseAlarmChart').parent().height(),
       data: data,
-      padding: [20, 10, 80, 40]
+      padding: [20, 10, 60, 40]
     })
     chart.axis('month', {
       label: {
@@ -234,7 +230,6 @@ $(function() {
     chart.line().position('month*value').shape('smooth')
     chart.render()
   }
-  falseAlarmChart()
 
   // 故障率图表数据
   function breakdownChart() {
@@ -253,7 +248,7 @@ $(function() {
       forceFit: true,
       height: $('#breakdownChart').parent().height(),
       data: data,
-      padding: [20, 10, 80, 40]
+      padding: [20, 10, 60, 40]
     })
     chart.axis('month', {
       label: {
@@ -289,5 +284,22 @@ $(function() {
     chart.line().position('month*value').shape('smooth')
     chart.render()
   }
-  breakdownChart()
+
+  setTimeout(() => {
+    // 设置图表显示宽高
+    let $falseAlarmChart = $('#falseAlarmChart')
+    let $breakdownChart = $('#breakdownChart')
+    let $realFireAlarmChart = $('#realFireAlarmChart')
+    $falseAlarmChart.height($falseAlarmChart.parent().height())
+    $breakdownChart.height($breakdownChart.parent().height())
+    $realFireAlarmChart.height($realFireAlarmChart.parent().height())
+    $falseAlarmChart.width($falseAlarmChart.parent().width())
+    $breakdownChart.width($breakdownChart.parent().width())
+    $realFireAlarmChart.width($realFireAlarmChart.parent().width())
+    
+    networkingTotalChart()
+    realFireAlarmChart()
+    falseAlarmChart()
+    breakdownChart()
+  }, 1000);
 })
