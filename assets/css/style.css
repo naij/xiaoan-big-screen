@@ -91,8 +91,8 @@ table tbody .center {
 .header {
   height: 88px;
   position: relative;
-  background-image: -webkit-image-set(url(../img/head_bg_2x.png) 1x,url(../img/head_bg_2x.png) 2x);
-  background-position: bottom center;
+  background-image: -webkit-image-set(url(../img/header_bg_1x.png) 1x,url(../img/header_bg_2x.png) 2x);
+  background-position: center 68px;
   background-repeat: no-repeat;
 }
 .header .header-bg {
@@ -101,14 +101,11 @@ table tbody .center {
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(0, 43, 96, 0.902);
+  background-color: rgba(0, 0, 0, 0.5);
   height: 68px;
 }
-.header:hover {
-  /* background-image: -webkit-image-set(url(../img/logo_hover_1x.png) 1x,url(../img/logo_hover_2x.png) 2x); */
-}
 .header .title {
-  color: #7adeff;
+  color: #ccc;
   font-size: 32px;
   text-align: center;
   line-height: 88px;
@@ -143,8 +140,8 @@ table tbody .center {
 
 .grid {
   margin-bottom: 10px;
-  border: 1px solid #0181f1;
-  background: rgba(1, 21, 48, 0.9);
+  border: 1px solid rgba(248, 154, 13, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -152,10 +149,10 @@ table tbody .center {
 }
 
 .grid .headline {
-  color: #00fefd;
+  color: #ccc;
   text-align: left;
   font-size: 14px;
-  background-color: #01204b;
+  background-color: rgba(0, 0, 0, 0.3);
   background-repeat: no-repeat;
   background-image: url(../img/headline_bg_2x.png);
   background-position: center -1px;
@@ -171,7 +168,7 @@ table tbody .center {
   position: absolute;
   width: 15px;
   height: 2px;
-  background-color: #0288fd;
+  background-color: rgba(248, 154, 13, 0.4);
 }
 .grid .bevel-top-left {
   top: -1px;
@@ -217,13 +214,13 @@ table tbody .center {
   position: relative;
 }
 .top-wrapper .total-count .label {
-  color: #7adeff;
+  color: #ccc;
   font-size: 24px;
 }
 .top-wrapper .total-count .number {
   font-size: 30px;
   color: #fff;
-  background-color: rgba(15, 103, 189, 0.9);
+  background-color: rgba(0, 0, 0, 0.5);
   display: inline-block;
   padding: 0 5px;
 }
@@ -236,15 +233,15 @@ table tbody .center {
   width: 170px;
 }
 .top-wrapper .time-range .button {
-  background-color: rgba(1, 21, 48, 0.9);
-  border: 1px solid #053f79;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(248, 154, 13, 0.4);
   color: #fff;
   padding: 0 10px;
   cursor: pointer;
 }
 .top-wrapper .time-range .button.selected {
-  background-color: rgba(15, 103, 189, 0.9);
-  border-color: rgba(15, 103, 189, 0.9);
+  background-color: rgba(255, 102, 0, 0.7);
+  border-color: rgba(255, 102, 0, 0.7);
 }
 
 .top-wrapper .weather,
@@ -325,7 +322,7 @@ table tbody .center {
 .top-wrapper .networking-total .sum .number {
   color: #d7f9fd;
   border-radius: 5px;
-  background: rgba(0, 34, 79, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   width: 90px;
   height: 90px;
   margin: 0 auto;
@@ -372,13 +369,15 @@ table tbody .center {
 .bottom-wrapper .middle .item-wrapper .bd,
 .bottom-wrapper .right .item-wrapper .bd {
   font-size: 36px;
-  color: #7adeff;
+  color: #999;
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
 }
 .bottom-wrapper .middle .icon,
 .bottom-wrapper .right .icon {
-  height: 30px;
-  width: 30px;
+  height: 55px;
+  width: 55px;
   margin-right: 15px;
 }
 .bottom-wrapper .middle .icon-water-level {

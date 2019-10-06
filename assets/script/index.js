@@ -58,8 +58,8 @@ $(function() {
       zoom: 11, //初始化地图层级
       center: [120.214001, 30.247132], //初始化地图中心点
       features: ['bg', 'road', 'building'],
-      mapStyle: 'amap://styles/3b563d6db6bd30bc836a6d7c849d9b1f'
-      // mapStyle: 'amap://styles/dark'
+      // mapStyle: 'amap://styles/3b563d6db6bd30bc836a6d7c849d9b1f'
+      mapStyle: 'amap://styles/dark'
     })
 
     var poinerIcon = 'https://img.alicdn.com/imgextra/i1/3883067843/O1CN0147qDXG27o8tBXO548_!!3883067843.png'
@@ -168,7 +168,7 @@ $(function() {
     chart.tooltip({
       showTitle: false
     })
-    chart.intervalStack().position('count').color('item')
+    chart.intervalStack().position('count').color('item', ['#138e8e', '#033f81'])
     chart.render()
   }
 
@@ -194,22 +194,22 @@ $(function() {
     chart.axis('month', {
       label: {
         textStyle: {
-          fill: '#7adeff', // 文本的颜色
+          fill: '#ccc', // 文本的颜色
         }
       },
       line: {
-        stroke: '#0669ca', // 设置线的颜色
+        stroke: '#333', // 设置线的颜色
       }
     })
     chart.axis('value', {
       label: {
         textStyle: {
-          fill: '#7adeff', // 文本的颜色
+          fill: '#ccc', // 文本的颜色
         }
       },
       grid: {
         lineStyle: {
-          stroke: '#043667'
+          stroke: '#333'
         }
       }
     })
@@ -251,22 +251,22 @@ $(function() {
     chart.axis('month', {
       label: {
         textStyle: {
-          fill: '#7adeff', // 文本的颜色
+          fill: '#ccc', // 文本的颜色
         }
       },
       line: {
-        stroke: '#0669ca', // 设置线的颜色
+        stroke: '#333', // 设置线的颜色
       }
     })
     chart.axis('value', {
       label: {
         textStyle: {
-          fill: '#7adeff', // 文本的颜色
+          fill: '#ccc', // 文本的颜色
         }
       },
       grid: {
         lineStyle: {
-          stroke: '#043667'
+          stroke: '#333'
         }
       }
     })
@@ -278,8 +278,8 @@ $(function() {
         alias: '误报率' // 为属性定义别名
       }
     })
-    // chart.area().position('month*value').shape('smooth')
-    chart.interval().position('month*value')
+    chart.area().position('month*value').shape('smooth').color('value', ['#033f81'])
+    chart.line().position('month*value').shape('smooth').color('value', ['#034fa2'])
     chart.render()
   }
 
@@ -305,22 +305,22 @@ $(function() {
     chart.axis('month', {
       label: {
         textStyle: {
-          fill: '#7adeff', // 文本的颜色
+          fill: '#ccc', // 文本的颜色
         }
       },
       line: {
-        stroke: '#0669ca', // 设置线的颜色
+        stroke: '#333', // 设置线的颜色
       }
     })
     chart.axis('value', {
       label: {
         textStyle: {
-          fill: '#7adeff', // 文本的颜色
+          fill: '#ccc', // 文本的颜色
         }
       },
       grid: {
         lineStyle: {
-          stroke: '#043667'
+          stroke: '#333'
         }
       }
     })
@@ -332,8 +332,8 @@ $(function() {
         alias: '故障率' // 为属性定义别名
       }
     })
-    chart.area().position('month*value').shape('smooth')
-    chart.line().position('month*value').shape('smooth')
+    chart.area().position('month*value').shape('smooth').color('value', ['#033f81'])
+    chart.line().position('month*value').shape('smooth').color('value', ['#034fa2'])
     chart.render()
   }
 
