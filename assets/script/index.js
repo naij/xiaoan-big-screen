@@ -55,7 +55,7 @@ $(function() {
 
     var map = new AMap.Map('mapContainer', {
       resizeEnable: true, //是否监控地图容器尺寸变化
-      zoom: 11, //初始化地图层级
+      zoom: 12, //初始化地图层级
       center: [120.214001, 30.247132], //初始化地图中心点
       features: ['bg', 'road', 'building'],
       // mapStyle: 'amap://styles/3b563d6db6bd30bc836a6d7c849d9b1f'
@@ -168,7 +168,7 @@ $(function() {
     chart.tooltip({
       showTitle: false
     })
-    chart.intervalStack().position('count').color('item', ['#138e8e', '#033f81'])
+    chart.intervalStack().position('count').color('item', ['#f89a0d', '#c25004'])
     chart.render()
   }
 
@@ -278,8 +278,8 @@ $(function() {
         alias: '误报率' // 为属性定义别名
       }
     })
-    chart.area().position('month*value').shape('smooth').color('value', ['#033f81'])
-    chart.line().position('month*value').shape('smooth').color('value', ['#034fa2'])
+    chart.area().position('month*value').color('value', ['#9c4003']).tooltip(false)
+    chart.line().position('month*value').color('value', ['#c25004'])
     chart.render()
   }
 
@@ -332,8 +332,8 @@ $(function() {
         alias: '故障率' // 为属性定义别名
       }
     })
-    chart.area().position('month*value').shape('smooth').color('value', ['#033f81'])
-    chart.line().position('month*value').shape('smooth').color('value', ['#034fa2'])
+    chart.area().position('month*value').color('value', ['#9c4003']).tooltip(false)
+    chart.line().position('month*value').color('value', ['#c25004'])
     chart.render()
   }
 
