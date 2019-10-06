@@ -85,6 +85,54 @@ $(function() {
   }
   renderMap()
 
+  function fetch() {
+    // 误报率
+    $.ajax({
+      url: 'http://127.0.0.1:8989/tp/get12MonthWblForTp',
+      type: 'POST',
+      data: {
+        key: 'XAlwjc119'
+      }
+    }).done(function(res) {
+      console.log(res)
+    })
+
+    // 故障率
+    $.ajax({
+      url: 'http://127.0.0.1:8989/tp/get12MonthGzlForTp',
+      type: 'POST',
+      data: {
+        key: 'XAlwjc119'
+      }
+    }).done(function(res) {
+      console.log(res)
+    })
+
+    // 联网单位总数
+    $.ajax({
+      url: 'http://127.0.0.1:8989/tp/getLwdwAndJcdCountForTp',
+      type: 'POST',
+      data: {
+        key: 'XAlwjc119'
+      }
+    }).done(function(res) {
+      console.log(res)
+    })
+
+    // 真实火警数
+    $.ajax({
+      url: 'http://127.0.0.1:8989/tp/get12MonthZshjForTp',
+      type: 'POST',
+      data: {
+        key: 'XAlwjc119'
+      }
+    }).done(function(res) {
+      console.log(res)
+    })
+  }
+  fetch()
+
+
   // 信息浮层
   function layer() {
     var $infoLayer = $('#J_info_layer')
@@ -173,7 +221,11 @@ $(function() {
         alias: '火警数' // 为属性定义别名
       }
     })
-    chart.interval().position('month*value')
+    chart.interval().position('month*value').color('value', function(value) {
+      if (value > 100) {
+        return '#ff6600'
+      }
+    })
     chart.render()
   }
 
@@ -226,8 +278,8 @@ $(function() {
         alias: '误报率' // 为属性定义别名
       }
     })
-    chart.area().position('month*value').shape('smooth')
-    chart.line().position('month*value').shape('smooth')
+    // chart.area().position('month*value').shape('smooth')
+    chart.interval().position('month*value')
     chart.render()
   }
 

@@ -170,29 +170,29 @@ table tbody .center {
 .grid .bevel {
   position: absolute;
   width: 15px;
-  height: 1px;
+  height: 2px;
   background-color: #0288fd;
 }
 .grid .bevel-top-left {
   top: -1px;
-  left: -6px;
+  left: -7px;
   transform: rotate(-45deg);
   transform-origin: right top;
 }
 .grid .bevel-top-right {
   top: -1px;
-  right: -6px;
+  right: -7px;
   transform: rotate(45deg);
   transform-origin: left top;
 }
 .grid .bevel-bottom-left {
-  bottom: -1px;
+  bottom: -2px;
   left: -6px;
   transform: rotate(45deg);
   transform-origin: right top;
 }
 .grid .bevel-bottom-right {
-  bottom: -1px;
+  bottom: -2px;
   right: -6px;
   transform: rotate(-45deg);
   transform-origin: left top;
