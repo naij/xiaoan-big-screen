@@ -78,7 +78,21 @@ $(function() {
         renderOptions: {
           //点的样式
           pointStyle: {
-            fillStyle: 'blue' //蓝色填充
+            //绘制点占据的矩形区域
+            content: PointSimplifier.Render.Canvas.getImageContent(
+              'https://img.alicdn.com/imgextra/i1/3883067843/O1CN01TQStAC27o8uH5qz02_!!3883067843.png',
+              function onload() {
+                pointSimplifierIns.renderLater()
+              }
+            ),
+            //宽度
+            width: 15,
+            //高度
+            height: 15,
+            //定位点为底部中心
+            offset: ['-50%', '-100%'],
+            fillStyle: null,
+            strokeStyle: null
           }
         }
       })
@@ -241,7 +255,7 @@ $(function() {
     ]
     
     var markerArr = []
-    var pointerIcon = 'http://127.0.0.1:8989/assets/img/fire_alarm.png'
+    var pointerIcon = 'https://img.alicdn.com/imgextra/i4/3883067843/O1CN01V4N92L27o8uKfW5nl_!!3883067843.png'
 
     function markerClick(e) {
       layer()
