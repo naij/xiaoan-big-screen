@@ -138,7 +138,7 @@ table tbody .center {
   justify-content: space-between;
 }
 .top-wrapper {
-  flex-grow: 4;
+  flex-grow: 5;
 }
 .bottom-wrapper {
   flex-grow: 1;
@@ -213,6 +213,7 @@ table tbody .center {
   margin: 0 10px;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 .top-wrapper .total-count {
   padding: 0 20px;
@@ -250,6 +251,21 @@ table tbody .center {
   cursor: pointer;
 }
 .top-wrapper .time-range .button.selected {
+  background-color: rgba(255, 102, 0, 0.7);
+  border-color: rgba(255, 102, 0, 0.7);
+}
+.top-wrapper .pointer-switcher {
+  position: relative;
+  padding: 20px 20px;
+}
+.top-wrapper .pointer-switcher .switch-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(248, 154, 13, 0.4);
+  color: #fff;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.top-wrapper .pointer-switcher .switch-btn.selected {
   background-color: rgba(255, 102, 0, 0.7);
   border-color: rgba(255, 102, 0, 0.7);
 }
@@ -632,8 +648,9 @@ table tbody .center {
   /* box-shadow: 0 0 5px #f89a0d; */
 }
 .map-info-layer .building-info {
-  left: 0;
-  top: 100px;
+  left: 60%;
+  margin-left: -125px;
+  bottom: 80px;
 }
 .map-info-layer .building-info .row {
   display: flex;
@@ -644,22 +661,30 @@ table tbody .center {
   margin-bottom: 0;
 }
 .map-info-layer .building-info .line-group .line-1 {
-  left: 316px;
-  top: 100px;
+  width: 30px;
+  left: 50%;
+  top: -3px;
+  transform: rotate(-90deg);
+  transform-origin: left bottom;
 }
 .map-info-layer .building-info .line-group .line-2 {
-  left: 386px;
-  top: 100px;
-  transform: rotate(45deg);
-  transform-origin: left top;
+  width: 135px;
+  right: 159px;
+  top: -32px;
+  transform: rotate(3deg);
+  transform-origin: right top;
 }
 .map-info-layer .building-info .line-group .line-3 {
-  left: 434px;
-  top: 149px;
+  width: 16px;
+  left: 23px;
+  top: -40px;
+  transform: rotate(-90deg);
+  transform-origin: left bottom;
 }
 .map-info-layer .building-info .line-group .line-3 .circle {
   right: -4px;
 }
+
 .map-info-layer .alarm-info {
   right: 0;
   top: 0;
@@ -682,18 +707,17 @@ table tbody .center {
   transform-origin: right top;
 }
 .map-info-layer .alarm-info .line-group .line-3 {
-  width: 35px;
-  right: 431px;
-  top: 249px;
+  width: 49px;
+  right: 432px;
+  top: 255px;
 }
 .map-info-layer .alarm-info .line-group .line-3 .circle {
   left: -4px;
 }
 
 .map-info-layer .device-info {
-  left: 50%;
-  margin-left: -125px;
-  bottom: 0;
+  left: 0;
+  top: 100px;
 }
 .map-info-layer .device-info .row {
   margin-bottom: 20px;
@@ -702,27 +726,25 @@ table tbody .center {
   margin-bottom: 0px;
 }
 .map-info-layer .device-info .line-group .line-1 {
-  width: 30px;
-  left: 50%;
-  top: -3px;
-  transform: rotate(-90deg);
-  transform-origin: left bottom;
+  left: 316px;
+  top: 100px;
 }
 .map-info-layer .device-info .line-group .line-2 {
-  width: 13px;
-  left: 144px;
-  top: -31px;
+  left: 386px;
+  top: 100px;
+  transform: rotate(45deg);
+  transform-origin: left top;
 }
 .map-info-layer .device-info .line-group .line-3 {
-  width: 30px;
-  left: 145px;
-  top: -31px;
-  transform: rotate(-90deg);
-  transform-origin: left bottom;
+  left: 428px;
+  top: 155px;
+  width: 50px;
 }
 .map-info-layer .device-info .line-group .line-3 .circle {
   right: -4px;
 }
+
+
 .map-info-layer .inner {
   color: #fff;
 }
@@ -755,7 +777,7 @@ table tbody .center {
 }
 .map-info-layer .close {
   position: absolute;
-  top: -10px;
+  top: -30px;
   right: -40px;
 }
 .map-info-layer .close {

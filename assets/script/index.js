@@ -36,6 +36,8 @@ $(function() {
   }
   weather()
 
+  var mapInstance
+  var pointSimplifierIns
   // 显示高德地图
   function renderMap() {
     // 百度地图系转高德地图系
@@ -53,7 +55,7 @@ $(function() {
       return point
     }
 
-    var map = new AMap.Map('mapContainer', {
+    mapInstance = new AMap.Map('mapContainer', {
       resizeEnable: true, //是否监控地图容器尺寸变化
       zoom: 12, //初始化地图层级
       center: [120.214001, 30.247132], //初始化地图中心点
@@ -62,13 +64,46 @@ $(function() {
       mapStyle: 'amap://styles/dark'
     })
 
-    var poinerIcon = 'https://img.alicdn.com/imgextra/i1/3883067843/O1CN0147qDXG27o8tBXO548_!!3883067843.png'
-    var markerArr = []
-    var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)})
-    function markerClick(e) {
-      infoWindow.setContent(e.target.content)
-      infoWindow.open(map, e.target.getPosition())
-    }
+    AMapUI.loadUI(['misc/PointSimplifier'], function(PointSimplifier) {
+      //创建组件实例
+      pointSimplifierIns = new PointSimplifier({
+        map: mapInstance,
+        getPosition: function(dataItem) {
+          //返回数据项的经纬度，AMap.LngLat实例或者经纬度数组
+          return dataItem.position
+        },
+        getHoverTitle: function(dataItem, idx) {
+          return dataItem.title
+        },
+        renderOptions: {
+          //点的样式
+          pointStyle: {
+            fillStyle: 'blue' //蓝色填充
+          }
+        }
+      })
+
+      var data = []
+      localGISMap.forEach(function(item, index) {
+        var gis = BdmapEncryptToMapabc(item[2], item[1])
+  
+        data.push({
+          position: [gis.lng, gis.lat],
+          title: item[0]
+        })
+      })
+  
+      //设置数据源，data需要是一个数组
+      pointSimplifierIns.setData(data)
+    })
+
+    // var poinerIcon = 'https://img.alicdn.com/imgextra/i1/3883067843/O1CN0147qDXG27o8tBXO548_!!3883067843.png'
+    // var markerArr = []
+    // var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)})
+    // function markerClick(e) {
+    //   infoWindow.setContent(e.target.content)
+    //   infoWindow.open(map, e.target.getPosition())
+    // }
     // localGISMap.forEach(function(item, index) {
     //   var gis = BdmapEncryptToMapabc(item[1], item[2])
 
@@ -85,6 +120,22 @@ $(function() {
   }
   renderMap()
 
+
+  // 信息浮层
+  function layer() {
+    var $infoLayer = $('#J_info_layer')
+    var $close = $infoLayer.find('.close')
+    var $parent = $infoLayer.parent()
+    $parent.addClass('relative')
+    $infoLayer.fadeIn()
+    $close.off('click').on('click', function(e) {
+      $infoLayer.fadeOut(200, function() {
+        $parent.removeClass('relative')
+      })
+    })
+  }
+
+  // 获取基础数据
   function fetch() {
     // 误报率
     $.ajax({
@@ -129,24 +180,101 @@ $(function() {
     }).done(function(res) {
       console.log(res)
     })
+
+    var timeRangeType = 'now'
+    var timeRangeList = [{
+      name: '今日',
+      type: 'now',
+      selected: true
+    }, {
+      name: '一周',
+      type: 'oneweek'
+    }, {
+      name: '一月',
+      type: 'onemonth'
+    }]
+
+    function getTimeRange() {
+      let timeRange = []
+      if (timeRangeType == 'now') {
+        timeRange[0] = util.getCurrentDate()
+        timeRange[1] = util.getCurrentDate()
+      } else if (timeRangeType == 'oneweek') {
+        timeRange[0] = util.getLastWeek()
+        timeRange[1] = util.getCurrentDate()
+      } else if (timeRangeType == 'onemonth') {
+        timeRange[0] = util.getLastMonth()
+        timeRange[1] = util.getCurrentDate()
+      }
+  
+      return timeRange
+    }
+
+    function getRealFireAlarmListByTime() {
+      let timeRange = getTimeRange()
+      $.ajax({
+        url: 'http://127.0.0.1:8989/tp/getHjdwByJssjForTp',
+        type: 'POST',
+        data: {
+          key: 'XAlwjc119',
+          startPage: 1,
+          pageSize: 100,
+          params: JSON.stringify({
+            jssj: timeRange[0],
+            jssj2: timeRange[1]
+          })
+        }
+      }).done(function(res) {
+        
+      })
+    }
+    // getRealFireAlarmListByTime()
+
+    var list = [
+      {
+        dwdz: "杭州市江干区杭海路238号森禾广场B座4楼",
+        dwid: "3399U00001",
+        dwmc: "杭州消安通信技术有限公司",
+        gis_x: 120.21325,
+        gis_y: 30.259932
+      }
+    ]
+    
+    var markerArr = []
+    var pointerIcon = 'http://127.0.0.1:8989/assets/img/fire_alarm.png'
+
+    function markerClick(e) {
+      layer()
+      mapInstance.setCenter(e.target.getPosition())
+    }
+    list.forEach(function(v, i) {
+      var gis = util.BdmapEncryptToMapabc(v.gis_y, v.gis_x)
+      var marker = new AMap.Marker({
+        icon: pointerIcon,
+        position: [gis.lng, gis.lat]
+      })
+      marker.on('click', markerClick)
+      markerArr.push(marker)
+    })
+    mapInstance.add(markerArr)
   }
   fetch()
 
-
-  // 信息浮层
-  function layer() {
-    var $infoLayer = $('#J_info_layer')
-    var $close = $infoLayer.find('.close')
-    var $parent = $infoLayer.parent()
-    $parent.addClass('relative')
-    $infoLayer.fadeIn()
-    $close.click(function(e) {
-      $infoLayer.fadeOut(200, function() {
-        $parent.removeClass('relative')
-      })
+  function switchPointer() {
+    var $switchBtn = $('#J_switch_btn')
+    $switchBtn.on('click', function(e) {
+      if ($switchBtn.hasClass('selected')) {
+        $switchBtn.removeClass('selected')
+        $switchBtn.html('显示所有点位')
+        pointSimplifierIns.hide()
+      } else {
+        $switchBtn.addClass('selected')
+        $switchBtn.html('隐藏所有点位')
+        pointSimplifierIns.show()
+      }
     })
   }
-  layer()
+  switchPointer()
 
   // 联网情况图表数据
   function networkingTotalChart() {
