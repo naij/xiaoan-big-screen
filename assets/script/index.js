@@ -279,11 +279,11 @@ $(function() {
     $switchBtn.on('click', function(e) {
       if ($switchBtn.hasClass('selected')) {
         $switchBtn.removeClass('selected')
-        $switchBtn.html('显示所有点位')
+        $switchBtn.html('显示所有单位')
         pointSimplifierIns.hide()
       } else {
         $switchBtn.addClass('selected')
-        $switchBtn.html('隐藏所有点位')
+        $switchBtn.html('隐藏所有单位')
         pointSimplifierIns.show()
       }
     })
@@ -310,7 +310,7 @@ $(function() {
     chart.tooltip({
       showTitle: false
     })
-    chart.intervalStack().position('count').color('item', ['#f89a0d', '#c25004'])
+    chart.intervalStack().position('count').color('item', ['#f89a0d', '#ff6600'])
     chart.render()
   }
 
@@ -366,6 +366,8 @@ $(function() {
     chart.interval().position('month*value').color('value', function(value) {
       if (value > 100) {
         return '#ff6600'
+      } else if (value < 50) {
+        return '#7eac01'
       }
     })
     chart.render()
