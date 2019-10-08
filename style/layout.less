@@ -1,0 +1,116 @@
+body {
+  background-color: #04070a;
+}
+
+.header {
+  height: 88px;
+  position: relative;
+  background-image: -webkit-image-set(url(../img/header_bg_1x.png) 1x,url(../img/header_bg_2x.png) 2x);
+  background-position: center 68px;
+  background-repeat: no-repeat;
+
+  .header-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 68px;
+  }
+  .title {
+    color: #ccc;
+    font-size: 32px;
+    text-align: center;
+    line-height: 88px;
+    position: relative;
+  }
+}
+
+.main {
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .top-wrapper,
+  .bottom-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  .top-wrapper {
+    flex-grow: 5;
+  }
+  .bottom-wrapper {
+    flex-grow: 1;
+  }
+
+  .grid {
+    margin-bottom: 10px;
+    border: 1px solid rgba(248, 154, 13, 0.4);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    clip-path: polygon( 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px );
+
+    .headline {
+      color: #ccc;
+      text-align: left;
+      font-size: 14px;
+      background-color: rgba(0, 0, 0, 0.3);
+      background-image: url(../img/headline_bg_2x.png);
+      background-position: center -1px;
+      background-repeat: no-repeat;
+      padding: 10px 10px;
+    }
+    .content {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+    }
+    .bevel {
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      background-color: rgba(248, 154, 13, 0.4);
+    }
+    .bevel-top-left {
+      top: -1px;
+      left: -7px;
+      transform: rotate(-45deg);
+      transform-origin: right top;
+    }
+    .bevel-top-right {
+      top: -1px;
+      right: -7px;
+      transform: rotate(45deg);
+      transform-origin: left top;
+    }
+    .bevel-bottom-left {
+      bottom: -2px;
+      left: -6px;
+      transform: rotate(45deg);
+      transform-origin: right top;
+    }
+    .bevel-bottom-right {
+      bottom: -2px;
+      right: -6px;
+      transform: rotate(-45deg);
+      transform-origin: left top;
+    }
+  }
+}
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+.status-404 {
+  width: 400px;
+  margin: 80px auto;
+}

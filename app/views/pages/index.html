@@ -1,0 +1,173 @@
+<div class="map-container" id="mapContainer"></div>
+    
+<div class="header">
+  <div class="header-bg"></div>
+  <div class="title">消安 Cloud</div>
+</div>
+
+<div class="main">
+  <div class="top-wrapper">
+    <div class="top-left-wrapper">
+      <div class="grid weather">
+        <div class="bevel-group">
+          <div class="bevel bevel-top-left"></div>
+          <div class="bevel bevel-top-right"></div>
+          <div class="bevel bevel-bottom-left"></div>
+          <div class="bevel bevel-bottom-right"></div>
+        </div>
+        <div class="content">
+          <div class="wea-img">
+              <span class="iconfont {{weather.weaImg}}"></span>
+          </div>
+          <div class="row">
+            <div class="tem">
+              <span>{{weather.tem}}</span>
+              <span class="symbol">℃</span>
+            </div>
+            <div class="wea">{{weather.wea}}</div>
+          </div>
+          <div class="row location">浙江 杭州</div>
+          <div class="row">
+            <div class="win">{{weather.win}}</div>
+            <div class="humidity">空气湿度 {{weather.humidity}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid networking-total">
+        <h3 class="headline">联网情况</h3>
+        <div class="content">
+          <div class="sum">
+            <h4>总联网数量</h4>
+            <div class="number">
+              <div class="fs-16">1,698</div>
+              <!-- <div class="fs-12">千件</div> -->
+            </div>
+          </div>
+          <div class="detail">
+            <div class="group-field">
+              <span class="group-item mr5">
+                <span class="color-f89a0d">离线 84</span>
+              </span>
+              <span class="group-item">
+                <span class="color-ff6600">在线 1614</span>
+              </span>
+            </div>
+            <div class="chart-container" id='networkingTotalChart' style='width:120px;height:120px;'></div>
+          </div>
+        </div>
+        <div class="bevel-group">
+          <div class="bevel bevel-top-left"></div>
+          <div class="bevel bevel-top-right"></div>
+          <div class="bevel bevel-bottom-left"></div>
+          <div class="bevel bevel-bottom-right"></div>
+        </div>
+      </div>
+    </div>
+    <div class="top-middle-wrapper">
+      <div class="total-count">
+        <div class="label">各地区总检测点数：</div>
+        <div class="value">
+          <span class="number">7</span>
+          <span class="number">,</span>
+          <span class="number">3</span>
+          <span class="number">2</span>
+          <span class="number">6</span>
+          <span class="number">,</span>
+          <span class="number">8</span>
+          <span class="number">7</span>
+          <span class="number">8</span>
+        </div>
+      </div>
+      <div class="pointer-switcher">
+        <div class="switch-btn" t-class:selected="switcher.type" mx-click="switchPoiner()">
+          <span t-if="switcher.type==1">隐藏所有单位</span>
+          <span t-if="switcher.type==0">显示所有单位</span>
+        </div>
+      </div>
+      
+    </div>
+    <div class="top-right-wrapper">
+      <div class="grid misinformation-rate">
+        <h3 class="headline">误报率</h3>
+        <div class="content">
+          <div id="falseAlarmChart" style='width:280px;height:200px;'></div>
+        </div>
+        <div class="bevel-group">
+          <div class="bevel bevel-top-left"></div>
+          <div class="bevel bevel-top-right"></div>
+          <div class="bevel bevel-bottom-left"></div>
+          <div class="bevel bevel-bottom-right"></div>
+        </div>
+      </div>
+      <div class="grid failure-rate">
+        <h3 class="headline">故障率</h3>
+        <div class="content">
+          <div id="breakdownChart" style='width:280px;height:200px;'></div>
+        </div>
+        <div class="bevel-group">
+          <div class="bevel bevel-top-left"></div>
+          <div class="bevel bevel-top-right"></div>
+          <div class="bevel bevel-bottom-left"></div>
+          <div class="bevel bevel-bottom-right"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-wrapper">
+    <div class="grid left">
+      <h3 class="headline">真实火警数</h3>
+      <div class="content">
+        <div id="realFireAlarmChart" class="overflow-hidden"></div>
+      </div>
+      <div class="bevel-group">
+        <div class="bevel bevel-top-left"></div>
+        <div class="bevel bevel-top-right"></div>
+        <div class="bevel bevel-bottom-left"></div>
+        <div class="bevel bevel-bottom-right"></div>
+      </div>
+    </div>
+    <div class="grid middle">
+      <h3 class="headline">消防用水监测</h3>
+      <div class="content">
+        <div class="item-wrapper">
+          <div class="icon icon-water-level"></div>
+          <div class="attr">
+            <div class="value">491</div>
+            <div class="title">水位总检测点数</div>
+          </div>
+        </div>
+        <div class="item-wrapper">
+          <div class="icon icon-pressure"></div>
+          <div class="attr">
+            <div class="value">645</div>
+            <div class="title">水压总检测点数</div>
+          </div>
+        </div>
+      </div>
+      <div class="bevel-group">
+        <div class="bevel bevel-top-left"></div>
+        <div class="bevel bevel-top-right"></div>
+        <div class="bevel bevel-bottom-left"></div>
+        <div class="bevel bevel-bottom-right"></div>
+      </div>
+    </div>
+    <div class="grid right">
+      <h3 class="headline">用电安全监测</h3>
+      <div class="content">
+        <div class="item-wrapper">
+          <div class="icon icon-electricity"></div>
+          <div class="attr">
+            <div class="value">1897</div>
+            <div class="title">电气总检测点数</div>
+          </div>
+        </div>
+      </div>
+      <div class="bevel-group">
+        <div class="bevel bevel-top-left"></div>
+        <div class="bevel bevel-top-right"></div>
+        <div class="bevel bevel-bottom-left"></div>
+        <div class="bevel bevel-bottom-right"></div>
+      </div>
+    </div>
+  </div>
+</div>

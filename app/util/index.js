@@ -1,4 +1,4 @@
-const formatTime = date => {
+var formatTime = function(date) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -9,7 +9,7 @@ const formatTime = date => {
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
-const getCurrentDate = () => {
+var getCurrentDate = function() {
   var nowdate = new Date()
   var y = nowdate.getFullYear()
   var m = nowdate.getMonth() + 1
@@ -27,7 +27,7 @@ const getCurrentDate = () => {
   return formatnowdate
 }
 
-const getLastWeek = () => {
+var getLastWeek = function() {
   var nowdate = new Date()
   var oneweekdate = new Date(nowdate - 6 * 24 * 3600 * 1000)
   var y = oneweekdate.getFullYear()
@@ -46,7 +46,7 @@ const getLastWeek = () => {
   return formatwdate
 }
 
-const getLastMonth = () => {
+var getLastMonth = function() {
   var nowdate = new Date()
   nowdate.setMonth(nowdate.getMonth() - 1)
   var y = nowdate.getFullYear()
@@ -65,12 +65,12 @@ const getLastMonth = () => {
   return formatwdate
 }
 
-const formatNumber = n => {
+var formatNumber = function(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
 
-const BdmapEncryptToMapabc = (bd_lat, bd_lon) => {
+var BdmapEncryptToMapabc = function(bd_lat, bd_lon) {
   var point = new Object()
   var x_pi = 3.14159265358979324 * 3000.0 / 180.0
   var x = new Number(bd_lon - 0.0065)
@@ -83,7 +83,8 @@ const BdmapEncryptToMapabc = (bd_lat, bd_lon) => {
   point.lat = Mars_lat
   return point
 }
-window.util = {
+
+module.exports = {
   formatTime: formatTime,
   getCurrentDate: getCurrentDate,
   getLastWeek: getLastWeek,

@@ -1,8 +1,15 @@
 {
-  "name": "消安大屏显示",
+  "name": "消安Cloud大屏",
   "version": "1.0.0",
-  "description": "消安大屏显示",
+  "description": "消安Cloud大屏",
+  "author": {
+    "name": "naij"
+  },
+  "repository": {
+    "url": "https://github.com/naij/xiaoan-big-screen"
+  },
   "dependencies": {
+    "less": "3.10.3",
     "mat": "1.0.7",
     "mat-proxy": "0.0.2",
     "mat-less": "0.0.3",
