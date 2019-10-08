@@ -8,17 +8,7 @@ module.exports = Magix.View.extend({
   },
   render: function() {
     var me = this
-    // me.request().all([{
-    //   name: 'picture_list'
-    // }], function(e, MesModel) {
-    //   var data = MesModel.get('data')
-
-    //   me.data = {
-    //     list: data.list,
-    //     selectedList: []
-    //   }
-    //   me.setView()
-    // })
+    me.data = me.extraData.data
     me.setView()
   }
 })

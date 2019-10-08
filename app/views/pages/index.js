@@ -32,12 +32,74 @@ module.exports = Magix.View.extend({
       $realFireAlarmChart.width($realFireAlarmChart.parent().width())
 
       me.renderMap()
+      me.connect()
       me.renderWeather()
       me.renderNetworkingTotalChart()
       me.renderFalseAlarmChart()
       me.renderBreakdownChart()
       me.renderRealFireAlarmChart()
     })
+  },
+  connect: function () {
+    var me = this
+    var connection = $.hubConnection('http://183.129.224.22:8089')
+    //如果前后端为同一个端口，可不填参数。如果前后端分离，这里参数为服务器端的URL
+    var chatHubProxy = connection.createHubProxy('ServiceHub')
+    // ServiceHub为后端定义，使用驼峰式命名，后端首字母必须大写
+    // ReveiceAlarm 为后端ServiceHub方法
+    chatHubProxy.on('ReveiceAlarm', function(res, message) {
+      var alarmList = res
+      alarmList.forEach(function(v, i) {
+        me.addAlarmMarker(v)
+      })
+    })
+    chatHubProxy.on('ReveiceConfirm', function(res, message) {
+      me.removeAlarmMarker(res)
+    })
+    connection.start()
+      .done(function(){ 
+        console.log('Now connected, connection ID=' + connection.id)
+        chatHubProxy.invoke('Register')
+      })
+      .fail(function(){ console.log('Could not connect') })
+  },
+  addAlarmMarker: function(obj) {
+    var me = this
+    var markers = me.markers || {}
+    me.request().all([{
+      name: 'getLwdwxxListForTp',
+      params: {
+        key: 'XAlwjc119',
+        startPage: 1,
+        pageSize: 10,
+        params: JSON.stringify({
+          dwid: obj.lwdwid
+        })
+      }
+    }], function(e, ResModel) {
+      var results = ResModel.get('data').results
+      if (results.length > 0) {
+        var gis = util.BdmapEncryptToMapabc(results[0].gis_y, results[0].gis_x)
+        var marker = new AMap.Marker({
+          map: me.mapInstance,
+          content: '<div class="pulse-marker"></div>',
+          // icon: 'https://img.alicdn.com/imgextra/i4/3883067843/O1CN01V4N92L27o8uKfW5nl_!!3883067843.png',
+          position: [gis.lng, gis.lat]
+        })
+        marker.on('click', function(e) {
+          me.showInfoDialog(results[0])
+          me.mapInstance.setCenter(e.target.getPosition())
+        })
+        markers[obj.id] = marker
+        me.markers = markers
+      }
+    })
+  },
+  removeAlarmMarker: function(id) {
+    var markers = this.markers
+    if (markers && markers[id]) {
+      markers[id].setMap(null)
+    }
   },
   renderMap: function () {
     var me = this
@@ -98,34 +160,36 @@ module.exports = Magix.View.extend({
       me.pointSimplifierIns = pointSimplifierIns
     })
 
-    var list = [
-      {
-        dwdz: "杭州市江干区杭海路238号森禾广场B座4楼",
-        dwid: "3399U00001",
-        dwmc: "杭州消安通信技术有限公司",
-        gis_x: 120.21325,
-        gis_y: 30.259932
-      }
-    ]
-    var markerArr = []
-    list.forEach(function(v, i) {
-      var gis = util.BdmapEncryptToMapabc(v.gis_y, v.gis_x)
-      var marker = new AMap.Marker({
-        icon: 'https://img.alicdn.com/imgextra/i4/3883067843/O1CN01V4N92L27o8uKfW5nl_!!3883067843.png',
-        position: [gis.lng, gis.lat]
-      })
-      marker.on('click', function(e) {
-        me.renderInfo()
-        mapInstance.setCenter(e.target.getPosition())
-      })
-      markerArr.push(marker)
-    })
-    mapInstance.add(markerArr)
+    // var list = [
+    //   {
+    //     dwdz: "杭州市江干区杭海路238号森禾广场B座4楼",
+    //     dwid: "3399U00001",
+    //     dwmc: "杭州消安通信技术有限公司",
+    //     gis_x: 120.21325,
+    //     gis_y: 30.259932
+    //   }
+    // ]
+    // var markerArr = []
+    // list.forEach(function(v, i) {
+    //   var gis = util.BdmapEncryptToMapabc(v.gis_y, v.gis_x)
+    //   var marker = new AMap.Marker({
+    //     icon: 'https://img.alicdn.com/imgextra/i4/3883067843/O1CN01V4N92L27o8uKfW5nl_!!3883067843.png',
+    //     position: [gis.lng, gis.lat]
+    //   })
+    //   marker.on('click', function(e) {
+    //     me.showInfoDialog()
+    //     mapInstance.setCenter(e.target.getPosition())
+    //   })
+    //   markerArr.push(marker)
+    // })
+    // mapInstance.add(markerArr)
+    me.mapInstance = mapInstance
   },
-  renderInfo: function() {
+  showInfoDialog: function(data) {
     this.mxDialog('app/views/pages/info', {
       width: 1000,
-      height: 600
+      height: 600,
+      data: data
     })
   },
   renderWeather: function () {
@@ -340,7 +404,7 @@ module.exports = Magix.View.extend({
       if (value > 100) {
         return '#ff6600'
       } else if (value < 50) {
-        return '#7eac01'
+        return '#f89a0d'
       }
     })
     chart.render()

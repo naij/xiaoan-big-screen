@@ -11,7 +11,7 @@ var base = function() {
 
 seajs.config({
   alias: {
-    'jquery': 'app/libs/jquery-1.12.1',
+    'jquery': 'app/libs/jquery',
     'magix': 'app/libs/magix',
     'pat': 'app/libs/pat',
     'moment': 'app/libs/moment',

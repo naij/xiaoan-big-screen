@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "less": "3.10.3",
+    "magix-combine": "3.2.2",
     "mat": "1.0.7",
-    "mat-proxy": "0.0.2",
     "mat-less": "0.0.3",
-    "magix-combine": "3.2.2"
+    "mat-proxy": "0.0.2",
+    "signalr": "^2.4.1"
   }
 }

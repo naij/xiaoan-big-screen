@@ -12,10 +12,6 @@ var Service = Magix.Service.extend(function(bag, callback) {
   var dataType = bag.get('dataType') || ajaxSetting.dataType
   var paramsStrArr = []
 
-  if (method.toUpperCase() == 'POST') {
-    params['_csrf'] = Magix.config('csrf')
-  }
-
   $.extend(params, {
     t: (+new Date())
   })
@@ -47,7 +43,7 @@ var Service = Magix.Service.extend(function(bag, callback) {
         console.log('error....')
       } else {
         var resp = $.parseJSON(xhr.responseText)
-        if (resp.code && resp.code === 200) {
+        if (resp.bool) {
           bag.set('data', resp.data)
           callback()
         } else {

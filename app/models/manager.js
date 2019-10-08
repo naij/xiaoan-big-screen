@@ -1,10 +1,10 @@
 var Service = require('app/models/service')
 
 Service.add([
-  // 登录
+  // 获取联网单位基本信息列表
   {
-    name: 'login',
-    url: '/api/member/admin/login.json',
+    name: 'getLwdwxxListForTp',
+    url: '/tp/getLwdwxxListForTp',
     method: 'POST'
   }
 ])
