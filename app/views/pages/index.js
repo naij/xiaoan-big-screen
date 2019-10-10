@@ -80,17 +80,29 @@ module.exports = Magix.View.extend({
       var results = ResModel.get('data').results
       if (results.length > 0) {
         var gis = util.BdmapEncryptToMapabc(results[0].gis_y, results[0].gis_x)
+        var hasSameMarker = false
+
+        for (let v in markers) {
+          if (obj.lwdwid == markers[v].lwdwid) {
+            hasSameMarker = true
+            break
+          }
+        }
+        if (hasSameMarker) {return}
+
         var marker = new AMap.Marker({
           map: me.mapInstance,
           content: '<div class="pulse-marker"></div>',
-          // icon: 'https://img.alicdn.com/imgextra/i4/3883067843/O1CN01V4N92L27o8uKfW5nl_!!3883067843.png',
           position: [gis.lng, gis.lat]
         })
         marker.on('click', function(e) {
           me.showInfoDialog(results[0])
           me.mapInstance.setCenter(e.target.getPosition())
         })
-        markers[obj.id] = marker
+        markers[obj.id] = {
+          lwdwid: obj.lwdwid,
+          marker: marker
+        }
         me.markers = markers
       }
     })
@@ -98,7 +110,8 @@ module.exports = Magix.View.extend({
   removeAlarmMarker: function(id) {
     var markers = this.markers
     if (markers && markers[id]) {
-      markers[id].setMap(null)
+      markers[id].marker.setMap(null)
+      delete markers[id]
     }
   },
   renderMap: function () {
@@ -160,29 +173,6 @@ module.exports = Magix.View.extend({
       me.pointSimplifierIns = pointSimplifierIns
     })
 
-    // var list = [
-    //   {
-    //     dwdz: "杭州市江干区杭海路238号森禾广场B座4楼",
-    //     dwid: "3399U00001",
-    //     dwmc: "杭州消安通信技术有限公司",
-    //     gis_x: 120.21325,
-    //     gis_y: 30.259932
-    //   }
-    // ]
-    // var markerArr = []
-    // list.forEach(function(v, i) {
-    //   var gis = util.BdmapEncryptToMapabc(v.gis_y, v.gis_x)
-    //   var marker = new AMap.Marker({
-    //     icon: 'https://img.alicdn.com/imgextra/i4/3883067843/O1CN01V4N92L27o8uKfW5nl_!!3883067843.png',
-    //     position: [gis.lng, gis.lat]
-    //   })
-    //   marker.on('click', function(e) {
-    //     me.showInfoDialog()
-    //     mapInstance.setCenter(e.target.getPosition())
-    //   })
-    //   markerArr.push(marker)
-    // })
-    // mapInstance.add(markerArr)
     me.mapInstance = mapInstance
   },
   showInfoDialog: function(data) {
@@ -224,190 +214,230 @@ module.exports = Magix.View.extend({
   },
   // 联网总数
   renderNetworkingTotalChart: function() {
-    var data = [{
-      item: '离线',
-      count: 84
-    }, {
-      item: '在线',
-      count: 1614
-    }]
-    var chart = new G2.Chart({
-      container: 'networkingTotalChart',
-      forceFit: true,
-      height: 120,
-      data: data,
-      padding: 14
+    var me = this
+    me.request().all([{
+      name: 'getLwdwAndJcdCountForTp',
+      params: {
+        key: 'XAlwjc119'
+      }
+    }], function(e, ResModel) {
+      var res = ResModel.get('data')
+      
+      me.data.lwdwzs = res.lwdwzs.toLocaleString('en-US')
+      me.data.jcdzs = res.jcdzs.toLocaleString('en-US')
+      me.setView()
+
+      var data = [{
+        item: '离线',
+        count: 84
+      }, {
+        item: '在线',
+        count: res.lwdwzs
+      }]
+      var chart = new G2.Chart({
+        container: 'networkingTotalChart',
+        forceFit: true,
+        height: 120,
+        data: data,
+        padding: 14
+      })
+      chart.coord('theta')
+      chart.tooltip({
+        showTitle: false
+      })
+      chart.intervalStack().position('count').color('item', ['#f89a0d', '#ff6600'])
+      chart.render()
     })
-    chart.coord('theta')
-    chart.tooltip({
-      showTitle: false
-    })
-    chart.intervalStack().position('count').color('item', ['#f89a0d', '#ff6600'])
-    chart.render()
   },
   // 误报率
   renderFalseAlarmChart: function() {
-    var data = [
-      { month: '1月', value: 4.04 },
-      { month: '2月', value: 4.88 },
-      { month: '3月', value: 5.32 },
-      { month: '4月', value: 5.38 },
-      { month: '5月', value: 6.14 },
-      { month: '6月', value: 5.10 },
-      { month: '7月', value: 4.89 },
-      { month: '8月', value: 4.04 }
-    ]
-    var chart = new G2.Chart({
-      container: 'falseAlarmChart',
-      forceFit: true,
-      height: $('#falseAlarmChart').parent().height(),
-      data: data,
-      padding: [20, 10, 60, 40]
-    })
-    chart.axis('month', {
-      label: {
-        textStyle: {
-          fill: '#ccc', // 文本的颜色
-        }
-      },
-      line: {
-        stroke: '#333', // 设置线的颜色
+    var me = this
+    me.request().all([{
+      name: 'get12MonthWblForTp',
+      params: {
+        key: 'XAlwjc119'
       }
-    })
-    chart.axis('value', {
-      label: {
-        textStyle: {
-          fill: '#ccc', // 文本的颜色
+    }], function(e, ResModel) {
+      var res = ResModel.get('data')
+      var data = []
+      res.forEach(function(v, i) {
+        // if (i > 5) {
+          data.push({
+            month: v.tjrq.replace('年','-').replace('月',''),
+            value: v.wbl
+          })
+        // }
+      })
+
+      var chart = new G2.Chart({
+        container: 'falseAlarmChart',
+        forceFit: true,
+        height: $('#falseAlarmChart').parent().height(),
+        data: data,
+        padding: [20, 10, 60, 40]
+      })
+      chart.axis('month', {
+        label: {
+          textStyle: {
+            fill: '#ccc', // 文本的颜色
+          }
+        },
+        line: {
+          stroke: '#333', // 设置线的颜色
         }
-      },
-      grid: {
-        lineStyle: {
-          stroke: '#333'
+      })
+      chart.axis('value', {
+        label: {
+          textStyle: {
+            fill: '#ccc', // 文本的颜色
+          }
+        },
+        grid: {
+          lineStyle: {
+            stroke: '#333'
+          }
         }
-      }
+      })
+      chart.scale({
+        month: {
+          alias: '月份' // 为属性定义别名
+        },
+        value: {
+          alias: '误报率' // 为属性定义别名
+        }
+      })
+      chart.area().position('month*value').color('value', ['#9c4003']).tooltip(false)
+      chart.line().position('month*value').color('value', ['#c25004'])
+      chart.render()
     })
-    chart.scale({
-      month: {
-        alias: '月份' // 为属性定义别名
-      },
-      value: {
-        alias: '误报率' // 为属性定义别名
-      }
-    })
-    chart.area().position('month*value').color('value', ['#9c4003']).tooltip(false)
-    chart.line().position('month*value').color('value', ['#c25004'])
-    chart.render()
   },
   // 故障率
   renderBreakdownChart: function() {
-    var data = [
-      { month: '1月', value: 3.46 },
-      { month: '2月', value: 3.05 },
-      { month: '3月', value: 4.80 },
-      { month: '4月', value: 5.00 },
-      { month: '5月', value: 4.64 },
-      { month: '6月', value: 4.90 },
-      { month: '7月', value: 5.04 },
-      { month: '8月', value: 4.54 }
-    ]
-    var chart = new G2.Chart({
-      container: 'breakdownChart',
-      forceFit: true,
-      height: $('#breakdownChart').parent().height(),
-      data: data,
-      padding: [20, 10, 60, 40]
-    })
-    chart.axis('month', {
-      label: {
-        textStyle: {
-          fill: '#ccc', // 文本的颜色
-        }
-      },
-      line: {
-        stroke: '#333', // 设置线的颜色
+    var me = this
+    me.request().all([{
+      name: 'get12MonthGzlForTp',
+      params: {
+        key: 'XAlwjc119'
       }
-    })
-    chart.axis('value', {
-      label: {
-        textStyle: {
-          fill: '#ccc', // 文本的颜色
+    }], function(e, ResModel) {
+      var res = ResModel.get('data')
+      var data = []
+      res.forEach(function(v, i) {
+        // if (i > 5) {
+          data.push({
+            month: v.tjrq.replace('年','-').replace('月',''),
+            value: v.gzl
+          })
+        // }
+      })
+
+      var chart = new G2.Chart({
+        container: 'breakdownChart',
+        forceFit: true,
+        height: $('#breakdownChart').parent().height(),
+        data: data,
+        padding: [20, 10, 60, 40]
+      })
+      chart.axis('month', {
+        label: {
+          textStyle: {
+            fill: '#ccc', // 文本的颜色
+          }
+        },
+        line: {
+          stroke: '#333', // 设置线的颜色
         }
-      },
-      grid: {
-        lineStyle: {
-          stroke: '#333'
+      })
+      chart.axis('value', {
+        label: {
+          textStyle: {
+            fill: '#ccc', // 文本的颜色
+          }
+        },
+        grid: {
+          lineStyle: {
+            stroke: '#333'
+          }
         }
-      }
-    })
-    chart.scale({
-      month: {
-        alias: '月份' // 为属性定义别名
-      },
-      value: {
-        alias: '故障率' // 为属性定义别名
-      }
-    })
-    chart.area().position('month*value').color('value', ['#9c4003']).tooltip(false)
-    chart.line().position('month*value').color('value', ['#c25004'])
-    chart.render()
+      })
+      chart.scale({
+        month: {
+          alias: '月份' // 为属性定义别名
+        },
+        value: {
+          alias: '故障率' // 为属性定义别名
+        }
+      })
+      chart.area().position('month*value').color('value', ['#9c4003']).tooltip(false)
+      chart.line().position('month*value').color('value', ['#c25004'])
+      chart.render()
+    })    
   },
   // 真实火警
   renderRealFireAlarmChart: function() {
-    var data = [
-      { month: '1月', value: 38 },
-      { month: '2月', value: 52 },
-      { month: '3月', value: 61 },
-      { month: '4月', value: 145 },
-      { month: '5月', value: 48 },
-      { month: '6月', value: 38 },
-      { month: '7月', value: 38 },
-      { month: '8月', value: 38}
-    ]
-    var chart = new G2.Chart({
-      container: 'realFireAlarmChart',
-      forceFit: true,
-      height: $('#realFireAlarmChart').parent().height(),
-      data: data,
-      padding: [10, 10, 60, 40]
-    })
-    chart.axis('month', {
-      label: {
-        textStyle: {
-          fill: '#ccc', // 文本的颜色
+    var me = this
+    me.request().all([{
+      name: 'get12MonthZshjForTp',
+      params: {
+        key: 'XAlwjc119'
+      }
+    }], function(e, ResModel) {
+      var res = ResModel.get('data')
+      var data = []
+      res.forEach(function(v, i) {
+        if (i > 2) {
+          data.push({
+            month: v.tjrq.replace('年','-').replace('月',''),
+            value: v.zshjs
+          })
         }
-      },
-      line: {
-        stroke: '#333', // 设置线的颜色
-      }
-    })
-    chart.axis('value', {
-      label: {
-        textStyle: {
-          fill: '#ccc', // 文本的颜色
+      })
+      var chart = new G2.Chart({
+        container: 'realFireAlarmChart',
+        forceFit: true,
+        height: $('#realFireAlarmChart').parent().height(),
+        data: data,
+        padding: [10, 20, 60, 50]
+      })
+      chart.axis('month', {
+        label: {
+          textStyle: {
+            fill: '#ccc', // 文本的颜色
+          }
+        },
+        line: {
+          stroke: '#333', // 设置线的颜色
         }
-      },
-      grid: {
-        lineStyle: {
-          stroke: '#333'
+      })
+      chart.axis('value', {
+        label: {
+          textStyle: {
+            fill: '#ccc', // 文本的颜色
+          }
+        },
+        grid: {
+          lineStyle: {
+            stroke: '#333'
+          }
         }
-      }
+      })
+      chart.scale({
+        month: {
+          alias: '月份' // 为属性定义别名
+        },
+        value: {
+          alias: '火警数' // 为属性定义别名
+        }
+      })
+      chart.interval().position('month*value').color('value', function(value) {
+        if (value > 100) {
+          return '#ff6600'
+        } else if (value < 50) {
+          return '#f89a0d'
+        }
+      })
+      chart.render()
     })
-    chart.scale({
-      month: {
-        alias: '月份' // 为属性定义别名
-      },
-      value: {
-        alias: '火警数' // 为属性定义别名
-      }
-    })
-    chart.interval().position('month*value').color('value', function(value) {
-      if (value > 100) {
-        return '#ff6600'
-      } else if (value < 50) {
-        return '#f89a0d'
-      }
-    })
-    chart.render()
   },
   'switchPoiner<click>': function(e) {
     var type = this.data.switcher.type
