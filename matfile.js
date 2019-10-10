@@ -5,10 +5,6 @@ var proxy = require('mat-proxy')
 var less  = require('./tool/mat-less')
 var combine = require('./tool/combine')
 
-mat.env({
-  port: 9090
-})
-
 // 预编译less
 mat.task('less', function () {
   mat.url([/.*\.css/])
