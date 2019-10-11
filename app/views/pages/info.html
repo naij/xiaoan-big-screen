@@ -139,7 +139,7 @@
     <div class="outer">
       <div class="inner">
         <div class="row">
-          <div class="item">
+          <div class="item" t-if="wdsx">
             <div class="label">建筑消防用水：</div>
             <div class="value">
               <div>屋顶水箱：{{wdsx}}M</div>
@@ -158,12 +158,30 @@
               <div><span class="square"></span></div>
             </div>
           </div>
+          <div class="item" t-unless="wdsx">
+              <div class="label">建筑消防用水：</div>
+              <div class="value">
+                <div>屋顶水箱：待接入</div>
+              </div>
+              <div class="value">
+                <div>地下水池：待接入</div> 
+              </div>
+              <div class="value">
+                <div>喷淋末端：待接入</div> 
+              </div>
+              <div class="value">
+                <div>消火栓末端：待接入</div>
+              </div>
+            </div>
         </div>
         <div class="row">
           <div class="item">
             <div class="label">AIoT评级：</div>
-            <div class="value">
-              <div class="level">一级</div>
+            <div class="value" t-if="wdsx">
+              <div class="level level-1">一级</div>
+            </div>
+            <div class="value" t-unless="wdsx">
+              <div class="level level-2">二级</div>
             </div>
           </div>
         </div>
