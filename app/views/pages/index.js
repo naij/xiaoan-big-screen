@@ -33,6 +33,7 @@ module.exports = Magix.View.extend({
 
       me.renderMap()
       me.connect()
+      
       me.renderWeather()
       me.renderNetworkingTotalChart()
       me.renderFalseAlarmChart()
@@ -190,6 +191,70 @@ module.exports = Magix.View.extend({
       data: data
     })
   },
+  getlocation: function(callback) {
+    console.log('GPS定位开始+++')
+    var map, geolocation
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('iCenter')
+    map.plugin('AMap.Geolocation', function() {
+      geolocation = new AMap.Geolocation({
+        enableHighAccuracy: false,//是否使用高精度定位，默认:true
+        timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+      })
+      map.addControl(geolocation)
+      geolocation.getCurrentPosition()
+      
+      // getCityInfo是高德GPS定位里面的一个方法，先返回ip定位数据，由于IP定位有可能不准确，所以后面用GPS数据修正
+      // geolocation.getCityInfo (function(status,result) {
+      //   console.log('与GPS同步IP定位开始，进行数据写入+++')
+      //   if (status === 'complete' && result.info === 'SUCCESS') {
+      //     console.log('同步IP定位成功，进行数据写入+++')
+      //     if(!sessionStorage.getItem('autouserchooselocationct')) {
+      //       console.log('未检测检查有上一次定位数据，进行数据写入+++')
+      //       let cityAdcode = result.adcode
+      //       let cityName = result.city
+      //       sessionStorage.setItem('autouserchooselocationct', cityName)
+      //       sessionStorage.setItem('autouserchooselocationcode', cityAdcode)
+      //       console.log('同步IP定位结束，进行数据写入完成+++')
+      //     }
+      //   }
+      // })
+      AMap.event.addListener(geolocation, 'complete', onComplete) //返回定位信息
+      AMap.event.addListener(geolocation, 'error', onError)      //返回定位出错信息
+    });
+
+    //GPS定位成功
+    function onComplete(data) {
+      // console.log(data)
+      console.log('GPS定位启动+++')
+      //gsp定位精确到区，返回的adcode精确到了城市下属的区域，
+      //想要获取城市的abcode还需要使用高德的另一个API，城市区域查询
+      
+      let cityName = data.addressComponent.city
+      let geocoder = new AMap.Geocoder({})
+      //地理编码,返回地理编码结果，
+      geocoder.getLocation(cityName, function(status, result) {
+        if (status === 'complete' && result.info === 'OK') {
+          console.log('GPS定位成功，处理定位数据+++')
+          let cityAdcode=result.geocodes[0].adcode
+          callback({
+            cityName: cityName,
+            cityAdcode: cityAdcode
+          })
+          // sessionStorage.setItem('autouserchooselocationct', cityName)
+          // sessionStorage.setItem('autouserchooselocationcode', cityAdcode)
+          console.log('GPS定位结束，进行数据写入完成+++')
+        }
+      })
+    }
+
+    //GPS定位失败
+    function onError() {
+      console.log('GPS定位失败开始启用ip定位+++')
+      // locationForIp(true)
+      console.log('gps-ip++...')
+    }
+  },
   renderWeather: function () {
     var me = this
     var weaImgMap = {
@@ -203,22 +268,25 @@ module.exports = Magix.View.extend({
       yin: 'iconyin',
       qing: 'iconqing'
     }
-
-    $.ajax({
-      url: "https://www.tianqiapi.com/api/?version=v6&cityid=101210101&appid=13915239&appsecret=Ky5jEpcK",
-      dataType: 'jsonp'
-    }).done(function(res) {
-      var weather = {
-        tem: res.tem,
-        wea: res.wea,
-        weaImg: weaImgMap[res.wea_img],
-        win: res.win,
-        winSpeed: res.win_speed,
-        humidity: res.humidity
-      }
-      me.data.weather = weather
-      me.setView()
+    me.getlocation(function(cityData) {
+      $.ajax({
+        url: 'https://www.tianqiapi.com/api/?version=v6&cityid='+ cityData.cityAdcode + '&appid=13915239&appsecret=Ky5jEpcK',
+        dataType: 'jsonp'
+      }).done(function(res) {
+        var weather = {
+          tem: res.tem,
+          wea: res.wea,
+          weaImg: weaImgMap[res.wea_img],
+          win: res.win,
+          winSpeed: res.win_speed,
+          humidity: res.humidity
+        }
+        me.data.cityName = cityData.cityName
+        me.data.weather = weather
+        me.setView()
+      })
     })
+    
   },
   // 联网总数
   renderNetworkingTotalChart: function() {
