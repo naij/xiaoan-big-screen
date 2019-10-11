@@ -47,10 +47,12 @@ var Service = Magix.Service.extend(function(bag, callback) {
           bag.set('data', resp.data)
           callback()
         } else {
+          bag.set('data', '')
+          callback()
           // callback({
           //   msg: resp.message
           // })
-          console.log('error....')
+          // console.log('error....')
         }
       }
     }

@@ -5,11 +5,11 @@
           <div class="row">
             <div class="item building-name">
               <div class="label">建筑名称：</div>
-              <div class="value">{{dwmc}}</div>
+              <div class="value">{{cym}}</div>
             </div>
-            <div class="item">
+            <div class="item building-type">
               <div class="label">建筑类别：</div>
-              <div class="value">写字楼</div>
+              <div class="value">{{jzlb}}</div>
             </div>
           </div>
           <div class="row">
@@ -71,22 +71,22 @@
       <div class="inner">
         <div class="row">
           <div class="item">
-            <div class="label">报警点位：</div>
-            <div class="value">1号主机002回路151点位</div>
+            <div class="label">报警部件码：</div>
+            <div class="value"><span class="mr10">主机号：{{zjh}}</span><span>部件码：{{bjbjdzm}}</span></div>
           </div>
         </div>
         <div class="row">
           <div class="item">
-            <div class="label">报警部位：</div>
-            <div class="value">20层2016房间</div>
+            <div class="label">报警部件类型：</div>
+            <div class="value">{{bjlx}}</div>
           </div>
         </div>
         <div class="row">
-          <div class="item">
-            <div class="label">报警类别：</div>
-            <div class="value">点型光电感烟火灾探测器</div>
+            <div class="item">
+              <div class="label">报警部件说明：</div>
+              <div class="value">{{azwz}}</div>
+            </div>
           </div>
-        </div>
       </div>
     </div>
     <div class="widget">
@@ -142,19 +142,19 @@
           <div class="item">
             <div class="label">建筑消防用水：</div>
             <div class="value">
-              <div>屋顶水箱：1.8M</div> 
+              <div>屋顶水箱：{{wdsx}}M</div>
               <div><span class="square"></span></div>
             </div>
             <div class="value">
-              <div>地下水池：2.5M</div> 
+              <div>地下水池：{{dxsc}}M</div> 
               <div><span class="square"></span></div>
             </div>
             <div class="value">
-              <div>喷淋末端：0.05MPa</div> 
+              <div>喷淋末端：{{plmd}}MPa</div> 
               <div><span class="square"></span></div>
             </div>
             <div class="value">
-              <div>消火栓末端：0.8Mpa</div> 
+              <div>消火栓末端：{{xhsmd}}Mpa</div>
               <div><span class="square"></span></div>
             </div>
           </div>

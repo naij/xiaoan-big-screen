@@ -31,6 +31,12 @@ Service.add([
     url: '/tp/getLwdwAndJcdCountForTp',
     method: 'POST'
   },
+  // 根据源地址、主机号、部件地址码获取消防设施部件信息
+  {
+    name: 'getXfssbjXxForTp',
+    url: '/tp/getXfssbjXxForTp',
+    method: 'POST'
+  }
 ])
 
 module.exports = Service

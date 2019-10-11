@@ -46,7 +46,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 280px;
+    width: 300px;
   }
   .top-middle-wrapper {
     flex-grow: 4;
@@ -496,25 +496,6 @@
     .inner .value {
       font-size: 16px;
       color: #fff;
-      display: flex;
-      justify-content: space-between;
-    }
-    .inner .value .square {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      background-color: #038d23;
-      margin: 0 5px 0 15px;
-      vertical-align: middle;
-      transform: skewX(-30deg);
-    }
-    .inner .value .level {
-      background-image: url(../img/level.png);
-      background-size: contain;
-      background-repeat: no-repeat;
-      width: 71px;
-      height: 28px;
-      padding-left: 35px;
     }
   }
   .building-info {
@@ -532,6 +513,12 @@
   }
   .building-info .row .building-name {
     max-width: 170px;
+  }
+  .building-info .row .building-type .value {
+    width: 90px;
+    height: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .building-info .line-group .line-1 {
     width: 30px;
@@ -597,6 +584,29 @@
   }
   .device-info .row:last-child {
     margin-bottom: 0px;
+  }
+  .device-info .row .value {
+    font-size: 16px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+  }
+  .device-info .row .value .square {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #038d23;
+    margin: 0 5px 0 15px;
+    vertical-align: middle;
+    transform: skewX(-30deg);
+  }
+  .device-info .row .value .level {
+    background-image: url(../img/level.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 71px;
+    height: 28px;
+    padding-left: 35px;
   }
   .device-info .line-group .line-1 {
     left: 316px;

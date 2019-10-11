@@ -96,7 +96,15 @@ module.exports = Magix.View.extend({
           position: [gis.lng, gis.lat]
         })
         marker.on('click', function(e) {
-          me.showInfoDialog(results[0])
+          me.showInfoDialog({
+            lwdwid: obj.lwdwid,
+            cym: results[0].cym,
+            jzlb: results[0].dwcsx ? results[0].dwcsx : results[0].dwzsx,
+            dwdz: results[0].dwdz,
+            txdzm: obj.txdzm,
+            zjh: obj.zjh,
+            bjbjdzm: obj.bjbjdzm
+          })
           me.mapInstance.setCenter(e.target.getPosition())
         })
         markers[obj.id] = {
@@ -222,17 +230,20 @@ module.exports = Magix.View.extend({
       }
     }], function(e, ResModel) {
       var res = ResModel.get('data')
+      var lwdwzs = 2168
       
-      me.data.lwdwzs = res.lwdwzs.toLocaleString('en-US')
+      me.data.lwdwzs = lwdwzs.toLocaleString('en-US')
       me.data.jcdzs = res.jcdzs.toLocaleString('en-US')
+      me.data.lxs = 33
+      me.data.zxs = 2135
       me.setView()
 
       var data = [{
         item: '离线',
-        count: 84
+        count: 33
       }, {
         item: '在线',
-        count: res.lwdwzs
+        count: 2135
       }]
       var chart = new G2.Chart({
         container: 'networkingTotalChart',
@@ -261,12 +272,12 @@ module.exports = Magix.View.extend({
       var res = ResModel.get('data')
       var data = []
       res.forEach(function(v, i) {
-        // if (i > 5) {
+        if (i > 6) {
           data.push({
             month: v.tjrq.replace('年','-').replace('月',''),
             value: v.wbl
           })
-        // }
+        }
       })
 
       var chart = new G2.Chart({
@@ -274,7 +285,7 @@ module.exports = Magix.View.extend({
         forceFit: true,
         height: $('#falseAlarmChart').parent().height(),
         data: data,
-        padding: [20, 10, 60, 40]
+        padding: [20, 30, 70, 40]
       })
       chart.axis('month', {
         label: {
@@ -323,12 +334,12 @@ module.exports = Magix.View.extend({
       var res = ResModel.get('data')
       var data = []
       res.forEach(function(v, i) {
-        // if (i > 5) {
+        if (i > 6) {
           data.push({
             month: v.tjrq.replace('年','-').replace('月',''),
             value: v.gzl
           })
-        // }
+        }
       })
 
       var chart = new G2.Chart({
@@ -336,7 +347,7 @@ module.exports = Magix.View.extend({
         forceFit: true,
         height: $('#breakdownChart').parent().height(),
         data: data,
-        padding: [20, 10, 60, 40]
+        padding: [20, 30, 70, 40]
       })
       chart.axis('month', {
         label: {
