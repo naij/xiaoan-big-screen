@@ -52,6 +52,9 @@ gulp.task('compress', ['clean'], function() {
       compatibility: 'ie8'
     }))
     .pipe(gulp.dest('./build/style/'))
+
+  gulp.src(['./img/*'])
+    .pipe(gulp.dest('./build/img/'))
 })
 
 gulp.task('build', [
