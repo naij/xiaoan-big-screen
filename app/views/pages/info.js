@@ -28,20 +28,28 @@ module.exports = Magix.View.extend({
       var deviceInfo
       if (!localData) {
         localData = {}
-        if (randomNum > 5) {
+        if ($.inArray(extraData.bjbjdzm, ['1|10', '1|11', '1|12', '1|13']) != -1) {
+          deviceInfo = {
+            wdsx: '0.6',
+            dxsc: '1.5',
+            plmd: '1.25',
+            xhsmd: '0.15',
+            unusual: true
+          }
+        } else if (randomNum > 5) {
           deviceInfo = {
             wdsx: me.getRandomArbitrary(1.8, 2.0),
             dxsc: me.getRandomArbitrary(1.8, 2.0),
             plmd: me.getRandomArbitrary(0.05, 0.07),
             xhsmd: me.getRandomArbitrary(0.6, 0.9)
           }
-          
         } else {
           deviceInfo = {
             wdsx: '',
             dxsc: '',
             plmd: '',
-            xhsmd: ''
+            xhsmd: '',
+            unusual: true
           }
         }
         localData[localKey] = deviceInfo
