@@ -21,14 +21,14 @@ mat.task('combine', function() {
     .use(combine())
 })
 
-// mat.task('pushState', function () {
-//   mat.url([/^((?!\.(css|less|js|html|ico|swf|png|jpg|gif)).)*$/])
-//     .rewrite([
-//       [/(\/.*)+/, 'index.html']
-//     ])
-// })
+mat.task('pushState', function () {
+  mat.url([/^((?!(\/tp\/|\.(css|less|js|html|ico|swf|png|gif))).)*$/])
+    .rewrite([
+      [/(\/.*)+/, 'debug.html']
+    ])
+})
 
-mat.task('default', ['less', 'combine'], function () {
+mat.task('default', ['less', 'pushState', 'combine'], function () {
   mat.url([/\/tp\//])
     .use(proxy({
       proxyPass: '183.129.224.22:7777'
