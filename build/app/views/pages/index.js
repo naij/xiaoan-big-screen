@@ -49,10 +49,10 @@ module.exports = Magix.View.extend({
   },
   connect: function () {
     var me = this
-    var connection = $.hubConnection('http://183.129.224.22:8089')
     //如果前后端为同一个端口，可不填参数。如果前后端分离，这里参数为服务器端的URL
-    var chatHubProxy = connection.createHubProxy('ServiceHub')
-    // ServiceHub为后端定义，使用驼峰式命名，后端首字母必须大写
+    var connection = $.hubConnection('http://183.129.224.22:8090')
+    // DispatchHub为后端定义，使用驼峰式命名，后端首字母必须大写
+    var chatHubProxy = connection.createHubProxy('DispatchHub')
     // ReveiceAlarm 为后端ServiceHub方法
     chatHubProxy.on('ReveiceAlarm', function(res, message) {
       var alarmList = res
@@ -65,8 +65,10 @@ module.exports = Magix.View.extend({
     })
     connection.start()
       .done(function(){ 
-        console.log('Now connected, connection ID=' + connection.id)
-        chatHubProxy.invoke('Register')
+        var connect = chatHubProxy.invoke('Connect', 'hzxa', 'hzxa119911')
+        connect.done(function(res) {
+          console.log(res)
+        })
       })
       .fail(function(){ console.log('Could not connect') })
   },
